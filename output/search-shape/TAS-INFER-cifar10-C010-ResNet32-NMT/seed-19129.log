@@ -1,0 +1,25 @@
+Main Function with logger : Logger(dir=output/search-shape/TAS-INFER-cifar10-C010-ResNet32-NMT, use-tf=False, writer=None)
+Arguments : -------------------------------
+batch_size       : 256
+cutout_length    : -1
+data_path        : /home/pdluser/dataset//cifar.python
+dataset          : cifar10
+eval_frequency   : 1
+init_model       : None
+model_config     : ./configs/NeurIPS-2019/C010-ResNet32.config
+model_source     : normal
+optim_config     : ./configs/opts/CIFAR-E300-W5-L1-COS.config
+print_freq       : 100
+print_freq_eval  : 200
+procedure        : basic
+rand_seed        : 19129
+resume           : None
+save_dir         : ./output/search-shape/TAS-INFER-cifar10-C010-ResNet32-NMT
+workers          : 6
+Python  Version  : 3.7.13 (default, Mar 29 2022, 02:18:16)  [GCC 7.5.0]
+Pillow  Version  : 9.1.1
+PyTorch Version  : 1.9.0+cu102
+cuDNN   Version  : 7605
+CUDA available   : True
+CUDA GPU numbers : 1
+CUDA_VISIBLE_DEVICES : 0,1

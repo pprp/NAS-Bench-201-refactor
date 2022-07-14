@@ -1,0 +1,31 @@
+Main Function with logger : Logger(dir=output/search-shape/TAS-INFER-cifar10-C010-ResNet32-KDT, use-tf=False, writer=None)
+Arguments : -------------------------------
+KD_alpha         : 0.9
+KD_checkpoint    : ./.latent-data/basemodels/cifar10/C010-ResNet32.pth
+KD_temperature   : 4.0
+batch_size       : 256
+cutout_length    : -1
+data_path        : /home/pdluser/dataset//cifar.python
+dataset          : cifar10
+eval_frequency   : 1
+init_model       : None
+model_config     : ./configs/NeurIPS-2019/C010-ResNet32.config
+optim_config     : ./configs/opts/CIFAR-E300-W5-L1-COS.config
+print_freq       : 100
+print_freq_eval  : 200
+procedure        : Simple-KD
+rand_seed        : 78310
+resume           : None
+save_dir         : ./output/search-shape/TAS-INFER-cifar10-C010-ResNet32-KDT
+workers          : 6
+Python  Version  : 3.7.13 (default, Mar 29 2022, 02:18:16)  [GCC 7.5.0]
+Pillow  Version  : 9.1.1
+PyTorch Version  : 1.9.0+cu102
+cuDNN   Version  : 7605
+CUDA available   : True
+CUDA GPU numbers : 1
+CUDA_VISIBLE_DEVICES : None
+./configs/NeurIPS-2019/C010-ResNet32.config
+Configure(dataset='cifar', arch='resnet', depth=32, module='ResNetBasicblock', super_type='infer-shape', zero_init_residual=False, class_num=10, search_mode='shape', xchannels=[3, 16, 6, 4, 12, 4, 4, 16, 9, 9, 6, 14, 32, 32, 9, 19, 28, 9, 32, 19, 32, 9, 64, 64, 64, 64, 64, 64, 64, 32, 38, 32], xblocks=[5, 5, 5], estimated_FLOP=34.945344)
+./configs/opts/CIFAR-E300-W5-L1-COS.config
+Configure(scheduler='cos', eta_min=0.0, epochs=300, warmup=5, optim='SGD', LR=0.1, decay=0.0005, momentum=0.9, nesterov=True, criterion='Softmax', auxiliary=-1.0, class_num=10, KD_alpha=0.9, KD_temperature=4.0)

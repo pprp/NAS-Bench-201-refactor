@@ -1,0 +1,304 @@
+Main Function with logger : Logger(dir=output/search-shape/TAS-INFER-cifar10-C010-ResNet32-NMT, use-tf=False, writer=None)
+Arguments : -------------------------------
+batch_size       : 256
+cutout_length    : -1
+data_path        : /home/pdluser/dataset//cifar.python
+dataset          : cifar10
+eval_frequency   : 1
+init_model       : None
+model_config     : ./configs/NeurIPS-2019/C010-ResNet32.config
+model_source     : normal
+optim_config     : ./configs/opts/CIFAR-E300-W5-L1-COS.config
+print_freq       : 100
+print_freq_eval  : 200
+procedure        : basic
+rand_seed        : 5870
+resume           : None
+save_dir         : ./output/search-shape/TAS-INFER-cifar10-C010-ResNet32-NMT
+workers          : 6
+Python  Version  : 3.7.13 (default, Mar 29 2022, 02:18:16)  [GCC 7.5.0]
+Pillow  Version  : 9.1.1
+PyTorch Version  : 1.9.0+cu102
+cuDNN   Version  : 7605
+CUDA available   : True
+CUDA GPU numbers : 1
+CUDA_VISIBLE_DEVICES : None
+./configs/NeurIPS-2019/C010-ResNet32.config
+Configure(dataset='cifar', arch='resnet', depth=32, module='ResNetBasicblock', super_type='infer-shape', zero_init_residual=False, class_num=10, search_mode='shape', xchannels=[3, 16, 6, 4, 12, 4, 4, 16, 9, 9, 6, 14, 32, 32, 9, 19, 28, 9, 32, 19, 32, 9, 64, 64, 64, 64, 64, 64, 64, 32, 38, 32], xblocks=[5, 5, 5], estimated_FLOP=34.945344)
+./configs/opts/CIFAR-E300-W5-L1-COS.config
+Configure(scheduler='cos', eta_min=0.0, epochs=300, warmup=5, optim='SGD', LR=0.1, decay=0.0005, momentum=0.9, nesterov=True, criterion='Softmax', auxiliary=-1.0, class_num=10)
+model ====>>>>:
+InferCifarResNet(
+  (layers): ModuleList(
+    (0): ConvBNReLU(
+      (conv): Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (1): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(16, 6, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(6, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(6, 4, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(4, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (conv): Conv2d(16, 4, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(4, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (2): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(4, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(12, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(12, 4, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(4, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (3): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(4, 4, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(4, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(4, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (conv): Conv2d(4, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (4): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(16, 9, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(9, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(9, 9, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(9, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (conv): Conv2d(16, 9, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(9, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (5): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(9, 6, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(6, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(6, 14, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(14, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (conv): Conv2d(9, 14, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(14, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (6): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(14, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (avg): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv): Conv2d(14, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      )
+    )
+    (7): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(32, 9, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(9, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(9, 19, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(19, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (conv): Conv2d(32, 19, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(19, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (8): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(19, 28, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(28, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(28, 9, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(9, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (conv): Conv2d(19, 9, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(9, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (9): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(9, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(32, 19, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(19, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (conv): Conv2d(9, 19, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(19, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (10): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(19, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(32, 9, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(9, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (conv): Conv2d(19, 9, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(9, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (11): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(9, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (avg): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (conv): Conv2d(9, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      )
+    )
+    (12): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (13): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (14): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(64, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (downsample): ConvBNReLU(
+        (conv): Conv2d(64, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (15): ResNetBasicblock(
+      (conv_a): ConvBNReLU(
+        (conv): Conv2d(32, 38, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(38, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (conv_b): ConvBNReLU(
+        (conv): Conv2d(38, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (avgpool): AvgPool2d(kernel_size=8, stride=8, padding=0)
+  (classifier): Linear(in_features=32, out_features=10, bias=True)
+)
+model information : InferWidthCifarResNet : Depth : 32 , Layers for each block : 5
+stage=0, ilayer=00/05, block=001, iCs=[16, 6, 4], oC=  4, stride=1
+stage=0, ilayer=01/05, block=002, iCs=[4, 12, 4], oC=  4, stride=1
+stage=0, ilayer=02/05, block=003, iCs=[4, 4, 16], oC= 16, stride=1
+stage=0, ilayer=03/05, block=004, iCs=[16, 9, 9], oC=  9, stride=1
+stage=0, ilayer=04/05, block=005, iCs=[9, 6, 14], oC= 14, stride=1
+stage=1, ilayer=00/05, block=006, iCs=[14, 32, 32], oC= 32, stride=2
+stage=1, ilayer=01/05, block=007, iCs=[32, 9, 19], oC= 19, stride=1
+stage=1, ilayer=02/05, block=008, iCs=[19, 28, 9], oC=  9, stride=1
+stage=1, ilayer=03/05, block=009, iCs=[9, 32, 19], oC= 19, stride=1
+stage=1, ilayer=04/05, block=010, iCs=[19, 32, 9], oC=  9, stride=1
+stage=2, ilayer=00/05, block=011, iCs=[9, 64, 64], oC= 64, stride=2
+stage=2, ilayer=01/05, block=012, iCs=[64, 64, 64], oC= 64, stride=1
+stage=2, ilayer=02/05, block=013, iCs=[64, 64, 64], oC= 64, stride=1
+stage=2, ilayer=03/05, block=014, iCs=[64, 64, 32], oC= 32, stride=1
+stage=2, ilayer=04/05, block=015, iCs=[32, 38, 32], oC= 32, stride=1
+--------------------------------------------------
+Params=0.32 MB, FLOPs=34.95 M ... = 0.03 G
+--------------------------------------------------
+train_data : Dataset CIFAR10
+    Number of datapoints: 50000
+    Root location: /home/pdluser/dataset//cifar.python
+    Split: Train
+    StandardTransform
+Transform: Compose(
+               RandomHorizontalFlip(p=0.5)
+               RandomCrop(size=(32, 32), padding=4)
+               ToTensor()
+               Normalize(mean=[0.4913725490196078, 0.4823529411764706, 0.4466666666666667], std=[0.24705882352941178, 0.24352941176470588, 0.2615686274509804])
+           )
+valid_data : Dataset CIFAR10
+    Number of datapoints: 10000
+    Root location: /home/pdluser/dataset//cifar.python
+    Split: Test
+    StandardTransform
+Transform: Compose(
+               ToTensor()
+               Normalize(mean=[0.4913725490196078, 0.4823529411764706, 0.4466666666666667], std=[0.24705882352941178, 0.24352941176470588, 0.2615686274509804])
+           )
+optimizer  : SGD (
+Parameter Group 0
+    dampening: 0
+    initial_lr: 0.1
+    lr: 0.1
+    momentum: 0.9
+    nesterov: True
+    weight_decay: 0.0005
+)
+scheduler  : CosineAnnealingLR(warmup=5, max-epoch=300, current::epoch=0, iter=0.00, type=cosine, T-max=300, eta-min=0.0)
+criterion  : CrossEntropyLoss()
+=> do not find the last-info file : output/search-shape/TAS-INFER-cifar10-C010-ResNet32-NMT/seed-5870-last-info.pth
+
+***[2022-07-13 02:33:40]*** start epoch=000/305 Time Left: [00:00:00], LR=[0.000000 ~ 0.000000], scheduler=CosineAnnealingLR(warmup=5, max-epoch=300, current::epoch=0, iter=0.00, type=cosine, T-max=300, eta-min=0.0)
+[train] config ::  auxiliary=-1.0
