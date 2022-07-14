@@ -36,7 +36,7 @@ if [ "$dataset" == "ImageNet16-120" ]; then
   config_path="configs/nas-benchmark/algos/SPOS_standalone_imagenet.config"
 fi
 
-arch_idx=0 
+arch_idx=0
 for ((i=1; i<=50; i ++))
 do
   save_dir=./output/search-cell-${space}/result-${dataset}/standalone_arch-${arch_idx}
@@ -52,4 +52,3 @@ do
     --workers 4 --print_freq 200 --rand_seed ${seed}
     let arch_idx+=200
 done
-

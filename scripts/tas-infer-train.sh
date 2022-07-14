@@ -49,4 +49,3 @@ OMP_NUM_THREADS=4 python ./exps/KD-main.py --dataset ${dataset} \
 	--cutout_length -1 \
 	--batch_size ${batch} --rand_seed ${rseed} --workers 6 \
 	--eval_frequency 1 --print_freq 100 --print_freq_eval 200
-

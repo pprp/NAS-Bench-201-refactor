@@ -13,9 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 """Base class to make optimizers weight decay ready."""
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
 
 import tensorflow as tf
 
@@ -67,7 +65,6 @@ class DecoupledWeightDecayExtension(object):
     optimizer = tfa.optimizers.AdamW(learning_rate=lr, weight_decay=wd)
     ```
     """
-
     def __init__(self, weight_decay, **kwargs):
         """Extension class that adds weight decay to an optimizer.
 
@@ -124,8 +121,11 @@ class DecoupledWeightDecayExtension(object):
             ValueError: If some of the variables are not `Variable` objects.
         """
         self._decay_var_list = set(decay_var_list) if decay_var_list else False
-        return super(DecoupledWeightDecayExtension, self).minimize(
-            loss, var_list=var_list, grad_loss=grad_loss, name=name)
+        return super(DecoupledWeightDecayExtension,
+                     self).minimize(loss,
+                                    var_list=var_list,
+                                    grad_loss=grad_loss,
+                                    name=name)
 
     def apply_gradients(self, grads_and_vars, name=None, decay_var_list=None):
         """Apply gradients to variables.
@@ -148,8 +148,8 @@ class DecoupledWeightDecayExtension(object):
             ValueError: If none of the variables have gradients.
         """
         self._decay_var_list = set(decay_var_list) if decay_var_list else False
-        return super(DecoupledWeightDecayExtension, self).apply_gradients(
-            grads_and_vars, name=name)
+        return super(DecoupledWeightDecayExtension,
+                     self).apply_gradients(grads_and_vars, name=name)
 
     def _decay_weights_op(self, var):
         if not self._decay_var_list or var in self._decay_var_list:
@@ -160,8 +160,8 @@ class DecoupledWeightDecayExtension(object):
 
     def _decay_weights_sparse_op(self, var, indices):
         if not self._decay_var_list or var in self._decay_var_list:
-            update = (-self._get_hyper('weight_decay', var.dtype) * tf.gather(
-                var, indices))
+            update = (-self._get_hyper('weight_decay', var.dtype) *
+                      tf.gather(var, indices))
             return self._resource_scatter_add(var, indices, update)
         return tf.no_op()
 
@@ -237,7 +237,6 @@ def extend_with_decoupled_weight_decay(base_optimizer):
         A new optimizer class that inherits from DecoupledWeightDecayExtension
         and base_optimizer.
     """
-
     class OptimizerWithDecoupledWeightDecay(DecoupledWeightDecayExtension,
                                             base_optimizer):
         """Base_optimizer with decoupled weight decay.
@@ -253,11 +252,10 @@ def extend_with_decoupled_weight_decay(base_optimizer):
         than L2 regularization would, which was shown to yield better
         training loss and generalization error in the paper above.
         """
-
         def __init__(self, weight_decay, *args, **kwargs):
             # super delegation is necessary here
-            super(OptimizerWithDecoupledWeightDecay, self).__init__(
-                weight_decay, *args, **kwargs)
+            super(OptimizerWithDecoupledWeightDecay,
+                  self).__init__(weight_decay, *args, **kwargs)
 
     return OptimizerWithDecoupledWeightDecay
 
@@ -300,7 +298,6 @@ class SGDW(DecoupledWeightDecayExtension, tf.keras.optimizers.SGD):
         learning_rate=lr, weight_decay=wd, momentum=0.9)
     ```
     """
-
     def __init__(self,
                  weight_decay,
                  learning_rate=0.001,
@@ -326,13 +323,12 @@ class SGDW(DecoupledWeightDecayExtension, tf.keras.optimizers.SGD):
                 of learning rate. `lr` is included for backward compatibility,
                 recommended to use `learning_rate` instead.
         """
-        super(SGDW, self).__init__(
-            weight_decay,
-            learning_rate=learning_rate,
-            momentum=momentum,
-            nesterov=nesterov,
-            name=name,
-            **kwargs)
+        super(SGDW, self).__init__(weight_decay,
+                                   learning_rate=learning_rate,
+                                   momentum=momentum,
+                                   nesterov=nesterov,
+                                   name=name,
+                                   **kwargs)
 
 
 class AdamW(DecoupledWeightDecayExtension, tf.keras.optimizers.Adam):
@@ -373,7 +369,6 @@ class AdamW(DecoupledWeightDecayExtension, tf.keras.optimizers.Adam):
     optimizer = tfa.optimizers.AdamW(learning_rate=lr, weight_decay=wd)
     ```
     """
-
     def __init__(self,
                  weight_decay,
                  learning_rate=0.001,
@@ -381,7 +376,7 @@ class AdamW(DecoupledWeightDecayExtension, tf.keras.optimizers.Adam):
                  beta_2=0.999,
                  epsilon=1e-07,
                  amsgrad=False,
-                 name="AdamW",
+                 name='AdamW',
                  **kwargs):
         """Construct a new AdamW optimizer.
 
@@ -411,12 +406,11 @@ class AdamW(DecoupledWeightDecayExtension, tf.keras.optimizers.Adam):
                 of learning rate. `lr` is included for backward compatibility,
                 recommended to use `learning_rate` instead.
         """
-        super(AdamW, self).__init__(
-            weight_decay,
-            learning_rate=learning_rate,
-            beta_1=beta_1,
-            beta_2=beta_2,
-            epsilon=epsilon,
-            amsgrad=amsgrad,
-            name=name,
-            **kwargs)
+        super(AdamW, self).__init__(weight_decay,
+                                    learning_rate=learning_rate,
+                                    beta_1=beta_1,
+                                    beta_2=beta_2,
+                                    epsilon=epsilon,
+                                    amsgrad=amsgrad,
+                                    name=name,
+                                    **kwargs)

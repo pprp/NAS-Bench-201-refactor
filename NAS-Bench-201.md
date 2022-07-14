@@ -105,9 +105,9 @@ xdata   = torch.load('000157-FULL.pth')
 archRes = ArchResults.create_from_state_dict(xdata['less']) # load trials trained with  12 epochs
 archRes = ArchResults.create_from_state_dict(xdata['full']) # load trials trained with 200 epochs
 
-print(archRes.arch_idx_str())      # print the index of this architecture 
+print(archRes.arch_idx_str())      # print the index of this architecture
 print(archRes.get_dataset_names()) # print the supported training data
-print(archRes.get_comput_costs('cifar10-valid')) # print all computational info when training on cifar10-valid 
+print(archRes.get_comput_costs('cifar10-valid')) # print all computational info when training on cifar10-valid
 print(archRes.get_metrics('cifar10-valid', 'x-valid', None, False)) # print the average loss/accuracy/time on all trials
 print(archRes.get_metrics('cifar10-valid', 'x-valid', None,  True)) # print loss/accuracy/time of a randomly selected trial
 ```

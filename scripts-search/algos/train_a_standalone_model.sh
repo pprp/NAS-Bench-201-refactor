@@ -47,4 +47,3 @@ OMP_NUM_THREADS=4 python3 ./exps/angle/train_a_standalone_model.py \
   --arch_learning_rate 0.0003 --arch_weight_decay 0.001 \
   --select_num 100 \
   --workers 4 --print_freq 200 --rand_seed ${seed}
-
