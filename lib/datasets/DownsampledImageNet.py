@@ -6,7 +6,6 @@ import os
 import sys
 
 import numpy as np
-import torch
 import torch.utils.data as data
 from PIL import Image
 
@@ -14,8 +13,6 @@ if sys.version_info[0] == 2:
     import cPickle as pickle
 else:
     import pickle
-
-import pdb
 
 
 def calculate_md5(fpath, chunk_size=1024 * 1024):
@@ -31,9 +28,12 @@ def check_md5(fpath, md5, **kwargs):
 
 
 def check_integrity(fpath, md5=None):
-    if not os.path.isfile(fpath): return False
-    if md5 is None: return True
-    else: return check_md5(fpath, md5)
+    if not os.path.isfile(fpath):
+        return False
+    if md5 is None:
+        return True
+    else:
+        return check_md5(fpath, md5)
 
 
 class ImageNet16(data.Dataset):
@@ -64,8 +64,10 @@ class ImageNet16(data.Dataset):
         if not self._check_integrity():
             raise RuntimeError('Dataset not found or corrupted.')
 
-        if self.train: downloaded_list = self.train_list
-        else: downloaded_list = self.valid_list
+        if self.train:
+            downloaded_list = self.train_list
+        else:
+            downloaded_list = self.valid_list
         self.data = []
         self.targets = []
 
@@ -95,13 +97,13 @@ class ImageNet16(data.Dataset):
             self.data = new_data
             self.targets = new_targets
         #    self.mean.append(entry['mean'])
-        #self.mean = np.vstack(self.mean).reshape(-1, 3, 16, 16)
-        #self.mean = np.mean(np.mean(np.mean(self.mean, axis=0), axis=1), axis=1)
-        #print ('Mean : {:}'.format(self.mean))
-        #temp      = self.data - np.reshape(self.mean, (1, 1, 1, 3))
-        #std_data  = np.std(temp, axis=0)
-        #std_data  = np.mean(np.mean(std_data, axis=0), axis=0)
-        #print ('Std  : {:}'.format(std_data))
+        # self.mean = np.vstack(self.mean).reshape(-1, 3, 16, 16)
+        # self.mean = np.mean(np.mean(np.mean(self.mean, axis=0), axis=1), axis=1)
+        # print ('Mean : {:}'.format(self.mean))
+        # temp      = self.data - np.reshape(self.mean, (1, 1, 1, 3))
+        # std_data  = np.std(temp, axis=0)
+        # std_data  = np.mean(np.mean(std_data, axis=0), axis=0)
+        # print ('Std  : {:}'.format(std_data))
 
     def __getitem__(self, index):
         img, target = self.data[index], self.targets[index] - 1
@@ -142,4 +144,4 @@ if __name__ == '__main__':
                         False, None, 200)
     print(len(trainX))
     print(len(validX))
-    #import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()

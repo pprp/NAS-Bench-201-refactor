@@ -2,32 +2,26 @@
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ######################################################################################
 import argparse
-import glob
 import os
+import pickle
 import random
 import sys
 import time
-from copy import deepcopy
 from pathlib import Path
 
 import numpy as np
 import torch
-import torch.nn as nn
-
-lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
-if str(lib_dir) not in sys.path: sys.path.insert(0, str(lib_dir))
-import pdb
-import pickle
-import time
-
-from config_utils import configure2str, dict2config, load_config
+from config_utils import dict2config, load_config
 from datasets import get_datasets, get_nas_search_loaders
-from log_utils import AverageMeter, convert_secs2time, time_string
+from log_utils import AverageMeter, time_string
 from models import get_cell_based_tiny_net, get_search_spaces
 from nas_102_api import NASBench102API as API
-from procedures import (copy_checkpoint, get_optim_scheduler, prepare_logger,
-                        prepare_seed, save_checkpoint)
+from procedures import get_optim_scheduler, prepare_logger, prepare_seed
 from utils import get_model_infos, obtain_accuracy
+
+lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
+if str(lib_dir) not in sys.path:
+    sys.path.insert(0, str(lib_dir))
 
 
 def recalculate_bn(net,
@@ -113,8 +107,9 @@ def main(xargs):
         'xshape': xshape
     }, logger)
     print(config)
-    search_loader, _, valid_loader = get_nas_search_loaders(train_data, valid_data, xargs.dataset, 'configs/nas-benchmark/', \
-                                          (config.batch_size, config.test_batch_size), xargs.workers)
+    search_loader, _, valid_loader = get_nas_search_loaders(
+        train_data, valid_data, xargs.dataset, 'configs/nas-benchmark/',
+        (config.batch_size, config.test_batch_size), xargs.workers)
     logger.log(
         '||||||| {:10s} ||||||| Search-Loader-Num={:}, Valid-Loader-Num={:}, batch size={:}'
         .format(xargs.dataset, len(search_loader), len(valid_loader),
@@ -194,7 +189,8 @@ def main(xargs):
     logger.log(
         'SPOS : run {:} epochs, cost {:.1f} s, last-geno is {:}.'.format(
             total_epoch, search_time.sum, genotype))
-    if api is not None: logger.log('{:}'.format(api.query_by_arch(genotype)))
+    if api is not None:
+        logger.log('{:}'.format(api.query_by_arch(genotype)))
     logger.close()
 
 

@@ -1,8 +1,6 @@
 ##################################################
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ##################################################
-import os
-import sys
 import time
 
 import torch
@@ -43,13 +41,15 @@ def procedure(xloader, network, criterion, scheduler, optimizer, mode, config,
         mode, config.auxiliary if hasattr(config, 'auxiliary') else -1))
     end = time.time()
     for i, (inputs, targets) in enumerate(xloader):
-        if mode == 'train': scheduler.update(None, 1.0 * i / len(xloader))
+        if mode == 'train':
+            scheduler.update(None, 1.0 * i / len(xloader))
         # measure data loading time
         data_time.update(time.time() - end)
         # calculate prediction and loss
         targets = targets.cuda(non_blocking=True)
 
-        if mode == 'train': optimizer.zero_grad()
+        if mode == 'train':
+            optimizer.zero_grad()
 
         features, logits = network(inputs)
         if isinstance(logits, list):

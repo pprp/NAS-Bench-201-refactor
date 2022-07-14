@@ -4,7 +4,7 @@ repos:
     rev: 4.0.1
     hooks:
       - id: flake8
-        args: ["--ignore=E501"]
+        args: ["--ignore=E501,E265,F841,E701"]
   - repo: https://github.com/timothycrosley/isort
     rev: 5.10.1
     hooks:

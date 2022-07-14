@@ -2,10 +2,7 @@
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ##################################################
 import argparse
-import os
 import random
-import sys
-import time
 
 from .share_args import add_shared_args
 

@@ -3,8 +3,6 @@
 ######################################################################################
 # One-Shot Neural Architecture Search via Self-Evaluated Template Network, ICCV 2019 #
 ######################################################################################
-import copy
-import pdb
 import random
 from copy import deepcopy
 
@@ -64,8 +62,10 @@ class TinyNetworkSPOS(nn.Module):
     def set_cal_mode(self, mode, dynamic_cell=None):
         assert mode in ['urs', 'joint', 'select', 'dynamic', 'dropnode']
         self.mode = mode
-        if mode == 'dynamic': self.dynamic_cell = deepcopy(dynamic_cell)
-        else: self.dynamic_cell = None
+        if mode == 'dynamic':
+            self.dynamic_cell = deepcopy(dynamic_cell)
+        else:
+            self.dynamic_cell = None
 
     def get_cal_mode(self):
         return self.mode
@@ -138,7 +138,8 @@ class TinyNetworkSPOS(nn.Module):
     def return_topK(self, K):
         archs = Structure.gen_all(self.op_names, self.max_nodes, False)
         pairs = [(self.get_log_prob(arch), arch) for arch in archs]
-        if K < 0 or K >= len(archs): K = len(archs)
+        if K < 0 or K >= len(archs):
+            K = len(archs)
         sorted_pairs = sorted(pairs, key=lambda x: -x[0])
         return_pairs = [sorted_pairs[_][1] for _ in range(K)]
         return return_pairs

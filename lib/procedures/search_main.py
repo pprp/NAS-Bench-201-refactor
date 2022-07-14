@@ -1,8 +1,6 @@
 ##################################################
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ##################################################
-import os
-import sys
 import time
 
 import torch
@@ -16,13 +14,15 @@ def get_flop_loss(expected_flop, flop_cur, flop_need, flop_tolerant):
 
     if flop_cur < flop_need - flop_tolerant:  # Too Small FLOP
         loss = -torch.log(expected_flop)
-    #elif flop_cur > flop_need + flop_tolerant: # Too Large FLOP
+    # elif flop_cur > flop_need + flop_tolerant: # Too Large FLOP
     elif flop_cur > flop_need:  # Too Large FLOP
         loss = torch.log(expected_flop)
     else:  # Required FLOP
         loss = None
-    if loss is None: return 0, 0
-    else: return loss, loss.item()
+    if loss is None:
+        return 0, 0
+    else:
+        return loss, loss.item()
 
 
 def search_train(search_loader, network, criterion, scheduler, base_optimizer,
@@ -100,9 +100,9 @@ def search_train(search_loader, network, criterion, scheduler, base_optimizer,
             logger.log(Sstr + ' ' + Tstr + ' ' + Lstr + ' ' + Vstr)
             #Istr = 'Bsz={:} Asz={:}'.format(list(base_inputs.size()), list(arch_inputs.size()))
             #logger.log(Sstr + ' ' + Tstr + ' ' + Lstr + ' ' + Vstr + ' ' + Istr)
-            #print(network.module.get_arch_info())
-            #print(network.module.width_attentions[0])
-            #print(network.module.width_attentions[1])
+            # print(network.module.get_arch_info())
+            # print(network.module.width_attentions[0])
+            # print(network.module.width_attentions[1])
 
     logger.log(
         ' **TRAIN** Prec@1 {top1.avg:.2f} Prec@5 {top5.avg:.2f} Error@1 {error1:.2f} Error@5 {error5:.2f} Base-Loss:{baseloss:.3f}, Arch-Loss={archloss:.3f}'

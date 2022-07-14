@@ -21,9 +21,10 @@ def select2withP(logits, tau, just_prob=False, num=2, eps=1e-7):
                         not torch.isnan(probs).any()):
                 break
 
-    if just_prob: return probs
+    if just_prob:
+        return probs
 
-    #with torch.no_grad(): # add eps for unexpected torch error
+    # with torch.no_grad(): # add eps for unexpected torch error
     #  probs = nn.functional.softmax(new_logits, dim=1)
     #  selected_index = torch.multinomial(probs + eps, 2, False)
     with torch.no_grad():  # add eps for unexpected torch error
@@ -57,7 +58,8 @@ def ChannelWiseInterV1(inputs, oC):
     outputs = torch.zeros((batch, oC, H, W),
                           dtype=inputs.dtype,
                           device=inputs.device)
-    if iC == oC: return inputs
+    if iC == oC:
+        return inputs
     for ot in range(oC):
         istartT, iendT = start_index(ot, oC, iC), end_index(ot, oC, iC)
         values = inputs[:, istartT:iendT].mean(dim=1)
@@ -68,21 +70,26 @@ def ChannelWiseInterV1(inputs, oC):
 def ChannelWiseInterV2(inputs, oC):
     assert inputs.dim() == 4, 'invalid dimension : {:}'.format(inputs.size())
     batch, C, H, W = inputs.size()
-    if C == oC: return inputs
-    else: return nn.functional.adaptive_avg_pool3d(inputs, (oC, H, W))
-    #inputs_5D = inputs.view(batch, 1, C, H, W)
-    #otputs_5D = nn.functional.interpolate(inputs_5D, (oC,H,W), None, 'area', None)
-    #otputs    = otputs_5D.view(batch, oC, H, W)
-    #otputs_5D = nn.functional.interpolate(inputs_5D, (oC,H,W), None, 'trilinear', False)
-    #return otputs
+    if C == oC:
+        return inputs
+    else:
+        return nn.functional.adaptive_avg_pool3d(inputs, (oC, H, W))
+    # inputs_5D = inputs.view(batch, 1, C, H, W)
+    # otputs_5D = nn.functional.interpolate(inputs_5D, (oC,H,W), None, 'area', None)
+    # otputs    = otputs_5D.view(batch, oC, H, W)
+    # otputs_5D = nn.functional.interpolate(inputs_5D, (oC,H,W), None, 'trilinear', False)
+    # return otputs
 
 
 def linear_forward(inputs, linear):
-    if linear is None: return inputs
+    if linear is None:
+        return inputs
     iC = inputs.size(1)
     weight = linear.weight[:, :iC]
-    if linear.bias is None: bias = None
-    else: bias = linear.bias
+    if linear.bias is None:
+        bias = None
+    else:
+        bias = linear.bias
     return nn.functional.linear(inputs, weight, bias)
 
 
@@ -104,8 +111,10 @@ def get_depth_choices(nDepth):
     else:
         assert nDepth >= 3, 'nDepth should be greater than 2 vs {:}'.format(
             nDepth)
-        if nDepth == 1: return (1, 1, 1)
-        elif nDepth == 2: return (1, 1, 2)
+        if nDepth == 1:
+            return (1, 1, 1)
+        elif nDepth == 2:
+            return (1, 1, 2)
         elif nDepth >= 3:
             return (nDepth // 3, nDepth * 2 // 3, nDepth)
         else:
@@ -118,6 +127,6 @@ def drop_path(x, drop_prob):
         mask = x.new_zeros(x.size(0), 1, 1, 1)
         mask = mask.bernoulli_(keep_prob)
         x = x * (mask / keep_prob)
-        #x.div_(keep_prob)
-        #x.mul_(mask)
+        # x.div_(keep_prob)
+        # x.mul_(mask)
     return x

@@ -224,8 +224,10 @@ class POOLING(nn.Module):
             raise ValueError('Invalid mode={:} in POOLING'.format(mode))
 
     def forward(self, inputs):
-        if self.preprocess: x = self.preprocess(inputs)
-        else: x = inputs
+        if self.preprocess:
+            x = self.preprocess(inputs)
+        else:
+            x = inputs
         return self.op(x)
 
 
@@ -247,8 +249,10 @@ class Zero(nn.Module):
 
     def forward(self, x):
         if self.C_in == self.C_out:
-            if self.stride == 1: return x.mul(0.)
-            else: return x[:, :, ::self.stride, ::self.stride].mul(0.)
+            if self.stride == 1:
+                return x.mul(0.)
+            else:
+                return x[:, :, ::self.stride, ::self.stride].mul(0.)
         else:
             shape = list(x.shape)
             shape[1] = self.C_out

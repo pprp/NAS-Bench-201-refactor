@@ -21,11 +21,14 @@ def get_depth_choices(nDepth, return_num):
         choices = (1, 2, 3)
     elif nDepth > 3:
         choices = list(range(1, nDepth + 1, 2))
-        if choices[-1] < nDepth: choices.append(nDepth)
+        if choices[-1] < nDepth:
+            choices.append(nDepth)
     else:
         raise ValueError('invalid nDepth : {:}'.format(nDepth))
-    if return_num: return len(choices)
-    else: return choices
+    if return_num:
+        return len(choices)
+    else:
+        return choices
 
 
 def conv_forward(inputs, conv, choices):
@@ -50,8 +53,10 @@ class ConvBNReLU(nn.Module):
         self.choices = get_width_choices(nOut)
         self.register_buffer('choices_tensor', torch.Tensor(self.choices))
 
-        if has_avg: self.avg = nn.AvgPool2d(kernel_size=2, stride=2, padding=0)
-        else: self.avg = None
+        if has_avg:
+            self.avg = nn.AvgPool2d(kernel_size=2, stride=2, padding=0)
+        else:
+            self.avg = None
         self.conv = nn.Conv2d(nIn,
                               nOut,
                               kernel_size=kernel,
@@ -61,13 +66,15 @@ class ConvBNReLU(nn.Module):
                               groups=1,
                               bias=bias)
         #if has_bn  : self.bn  = nn.BatchNorm2d(nOut)
-        #else       : self.bn  = None
+        # else       : self.bn  = None
         self.has_bn = has_bn
         self.BNs = nn.ModuleList()
         for i, _out in enumerate(self.choices):
             self.BNs.append(nn.BatchNorm2d(_out))
-        if has_relu: self.relu = nn.ReLU(inplace=True)
-        else: self.relu = None
+        if has_relu:
+            self.relu = nn.ReLU(inplace=True)
+        else:
+            self.relu = None
         self.in_dim = nIn
         self.out_dim = nOut
         self.search_mode = 'basic'
@@ -88,7 +95,8 @@ class ConvBNReLU(nn.Module):
                                    self.conv.groups)
         all_positions = self.OutShape[0] * self.OutShape[1]
         flops = (conv_per_position_flops * all_positions / divide) * iC * oC
-        if self.conv.bias is not None: flops += all_positions / divide
+        if self.conv.bias is not None:
+            flops += all_positions / divide
         return flops
 
     def get_range(self):
@@ -116,8 +124,10 @@ class ConvBNReLU(nn.Module):
         expected_outC = (self.choices_tensor * probability).sum()
         expected_flop = self.get_flops([expected_inC, expected_outC], False,
                                        1e6)
-        if self.avg: out = self.avg(inputs)
-        else: out = inputs
+        if self.avg:
+            out = self.avg(inputs)
+        else:
+            out = inputs
         # convolutional layer
         out_convs = conv_forward(out, self.conv,
                                  [self.choices[i] for i in index])
@@ -131,18 +141,26 @@ class ConvBNReLU(nn.Module):
         out = outA * prob[0] + outB * prob[1]
         #out = additive_func(out_bns[0]*prob[0], out_bns[1]*prob[1])
 
-        if self.relu: out = self.relu(out)
-        else: out = out
+        if self.relu:
+            out = self.relu(out)
+        else:
+            out = out
         return out, expected_outC, expected_flop
 
     def basic_forward(self, inputs):
-        if self.avg: out = self.avg(inputs)
-        else: out = inputs
+        if self.avg:
+            out = self.avg(inputs)
+        else:
+            out = inputs
         conv = self.conv(out)
-        if self.has_bn: out = self.BNs[-1](conv)
-        else: out = conv
-        if self.relu: out = self.relu(out)
-        else: out = out
+        if self.has_bn:
+            out = self.BNs[-1](conv)
+        else:
+            out = conv
+        if self.relu:
+            out = self.relu(out)
+        else:
+            out = out
         if self.InShape is None:
             self.InShape = (inputs.size(-2), inputs.size(-1))
             self.OutShape = (out.size(-2), out.size(-1))
@@ -217,8 +235,10 @@ class ResNetBasicblock(nn.Module):
         return flop_A + flop_B + flop_C
 
     def forward(self, inputs):
-        if self.search_mode == 'basic': return self.basic_forward(inputs)
-        elif self.search_mode == 'search': return self.search_forward(inputs)
+        if self.search_mode == 'basic':
+            return self.basic_forward(inputs)
+        elif self.search_mode == 'search':
+            return self.search_forward(inputs)
         else:
             raise ValueError('invalid search_mode = {:}'.format(
                 self.search_mode))
@@ -246,8 +266,10 @@ class ResNetBasicblock(nn.Module):
     def basic_forward(self, inputs):
         basicblock = self.conv_a(inputs)
         basicblock = self.conv_b(basicblock)
-        if self.downsample is not None: residual = self.downsample(inputs)
-        else: residual = inputs
+        if self.downsample is not None:
+            residual = self.downsample(inputs)
+        else:
+            residual = inputs
         out = additive_func(residual, basicblock)
         return nn.functional.relu(out, inplace=True)
 
@@ -331,8 +353,10 @@ class ResNetBottleneck(nn.Module):
         return flop_A + flop_B + flop_C + flop_D
 
     def forward(self, inputs):
-        if self.search_mode == 'basic': return self.basic_forward(inputs)
-        elif self.search_mode == 'search': return self.search_forward(inputs)
+        if self.search_mode == 'basic':
+            return self.basic_forward(inputs)
+        elif self.search_mode == 'search':
+            return self.search_forward(inputs)
         else:
             raise ValueError('invalid search_mode = {:}'.format(
                 self.search_mode))
@@ -341,8 +365,10 @@ class ResNetBottleneck(nn.Module):
         bottleneck = self.conv_1x1(inputs)
         bottleneck = self.conv_3x3(bottleneck)
         bottleneck = self.conv_1x4(bottleneck)
-        if self.downsample is not None: residual = self.downsample(inputs)
-        else: residual = inputs
+        if self.downsample is not None:
+            residual = self.downsample(inputs)
+        else:
+            residual = inputs
         out = additive_func(residual, bottleneck)
         return nn.functional.relu(out, inplace=True)
 
@@ -375,7 +401,7 @@ class SearchShapeCifarResNet(nn.Module):
     def __init__(self, block_name, depth, num_classes):
         super(SearchShapeCifarResNet, self).__init__()
 
-        #Model type specifies number of layers for CIFAR-10 and CIFAR-100 model
+        # Model type specifies number of layers for CIFAR-10 and CIFAR-100 model
         if block_name == 'ResNetBasicblock':
             block = ResNetBasicblock
             assert (depth -
@@ -492,7 +518,8 @@ class SearchShapeCifarResNet(nn.Module):
             self.avgpool.parameters()) + list(self.classifier.parameters())
 
     def get_flop(self, mode, config_dict, extra_info):
-        if config_dict is not None: config_dict = config_dict.copy()
+        if config_dict is not None:
+            config_dict = config_dict.copy()
         # select channels
         channels = [3]
         for i, weight in enumerate(self.width_attentions):
@@ -655,7 +682,7 @@ class SearchShapeCifarResNet(nn.Module):
                 choices = self.depth_info[i]['choices']
                 xstagei = self.depth_info[i]['stage']
                 #print ('iL={:}, choices={:}, stage={:}, probs={:}'.format(i, choices, xstagei, selected_depth_probs[xstagei].cpu().tolist()))
-                #for A, W in zip(choices, selected_depth_probs[xstagei]):
+                # for A, W in zip(choices, selected_depth_probs[xstagei]):
                 #  print('Size = {:}, W = {:}'.format(feature_maps[A].size(), W))
                 possible_tensors = []
                 max_C = max(feature_maps[A].size(1) for A in choices)

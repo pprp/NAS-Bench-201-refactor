@@ -15,11 +15,6 @@ from pathlib import Path
 import numpy as np
 import torch
 import torch.nn as nn
-
-lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
-if str(lib_dir) not in sys.path: sys.path.insert(0, str(lib_dir))
-import random
-
 from config_utils import configure2str, dict2config, load_config
 from datasets import get_datasets, get_nas_search_loaders
 from log_utils import AverageMeter, convert_secs2time, time_string
@@ -29,6 +24,10 @@ from nas_102_api import NASBench102API as API
 from procedures import (copy_checkpoint, get_optim_scheduler, prepare_logger,
                         prepare_seed, save_checkpoint)
 from utils import get_model_infos, obtain_accuracy
+
+lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
+if str(lib_dir) not in sys.path:
+    sys.path.insert(0, str(lib_dir))
 
 
 def search_func(xloader, network, criterion, scheduler, w_optimizer,
@@ -153,8 +152,9 @@ def main(xargs):
         'class_num': class_num,
         'xshape': xshape
     }, logger)
-    search_loader, _, valid_loader = get_nas_search_loaders(train_data, valid_data, xargs.dataset, 'configs/nas-benchmark/', \
-                                          (config.batch_size, config.test_batch_size), xargs.workers)
+    search_loader, _, valid_loader = get_nas_search_loaders(
+        train_data, valid_data, xargs.dataset, 'configs/nas-benchmark/',
+        (config.batch_size, config.test_batch_size), xargs.workers)
     logger.log(
         '||||||| {:10s} ||||||| Search-Loader-Num={:}, Valid-Loader-Num={:}, batch size={:}'
         .format(xargs.dataset, len(search_loader), len(valid_loader),
@@ -189,7 +189,7 @@ def main(xargs):
     logger.log('w-scheduler : {:}'.format(w_scheduler))
     logger.log('criterion   : {:}'.format(criterion))
     flop, param = get_model_infos(search_model, xshape)
-    #logger.log('{:}'.format(search_model))
+    # logger.log('{:}'.format(search_model))
     logger.log('FLOP = {:.2f} M, Params = {:.2f} MB'.format(flop, param))
     logger.log('search-space : {:}'.format(search_space))
     if xargs.arch_nas_dataset is None:
@@ -240,7 +240,7 @@ def main(xargs):
             epoch_str, need_time, min(w_scheduler.get_lr())))
 
         search_w_loss, search_w_top1, search_w_top5, search_a_loss, search_a_top1, search_a_top5 \
-                    = search_func(search_loader, network, criterion, w_scheduler, w_optimizer, a_optimizer, epoch_str, xargs.print_freq, logger)
+            = search_func(search_loader, network, criterion, w_scheduler, w_optimizer, a_optimizer, epoch_str, xargs.print_freq, logger)
         search_time.update(time.time() - start_time)
         logger.log(
             '[{:}] search [base] : loss={:.2f}, accuracy@1={:.2f}%, accuracy@5={:.2f}%, time-cost={:.1f} s'
@@ -311,7 +311,8 @@ def main(xargs):
     logger.log(
         'SPOS : run {:} epochs, cost {:.1f} s, last-geno is {:}.'.format(
             total_epoch, search_time.sum, genotype))
-    if api is not None: logger.log('{:}'.format(api.query_by_arch(genotype)))
+    if api is not None:
+        logger.log('{:}'.format(api.query_by_arch(genotype)))
     logger.close()
 
 

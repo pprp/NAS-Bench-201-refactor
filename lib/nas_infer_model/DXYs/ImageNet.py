@@ -70,8 +70,10 @@ class NetworkImageNet(nn.Module):
         return self.extra_repr()
 
     def auxiliary_param(self):
-        if self.auxiliary_head is None: return []
-        else: return list(self.auxiliary_head.parameters())
+        if self.auxiliary_head is None:
+            return []
+        else:
+            return list(self.auxiliary_head.parameters())
 
     def forward(self, inputs):
         s0 = self.stem0(inputs)
@@ -84,5 +86,7 @@ class NetworkImageNet(nn.Module):
         out = self.global_pooling(s1)
         logits = self.classifier(out.view(out.size(0), -1))
 
-        if logits_aux is None: return out, logits
-        else: return out, [logits, logits_aux]
+        if logits_aux is None:
+            return out, logits
+        else:
+            return out, [logits, logits_aux]

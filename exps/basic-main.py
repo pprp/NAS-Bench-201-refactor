@@ -1,36 +1,35 @@
 ##################################################
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ##################################################
-import argparse
-import random
 import sys
 import time
-
-import torch
-from PIL import ImageFile
-
-ImageFile.LOAD_TRUNCATED_IMAGES = True
 from copy import deepcopy
 from pathlib import Path
 
-lib_dir = (Path(__file__).parent / '..' / 'lib').resolve()
-if str(lib_dir) not in sys.path: sys.path.insert(0, str(lib_dir))
+import torch
 from config_utils import load_config
 from config_utils import obtain_basic_args as obtain_args
 from datasets import get_datasets
 from log_utils import AverageMeter, convert_secs2time, time_string
 from models import obtain_model
 from nas_infer_model import obtain_nas_infer_model
+from PIL import ImageFile
 from procedures import (copy_checkpoint, get_optim_scheduler, get_procedures,
                         prepare_logger, prepare_seed, save_checkpoint)
 from utils import get_model_infos
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+
+lib_dir = (Path(__file__).parent / '..' / 'lib').resolve()
+if str(lib_dir) not in sys.path:
+    sys.path.insert(0, str(lib_dir))
 
 
 def main(args):
     assert torch.cuda.is_available(), 'CUDA is not available.'
     torch.backends.cudnn.enabled = True
     torch.backends.cudnn.benchmark = True
-    #torch.backends.cudnn.deterministic = True
+    # torch.backends.cudnn.deterministic = True
     torch.set_num_threads(args.workers)
 
     prepare_seed(args.rand_seed)
@@ -90,7 +89,8 @@ def main(args):
         if not last_checkpoint_path.exists():
             logger.log('Does not find {:}, try another path'.format(
                 last_checkpoint_path))
-            last_checkpoint_path = last_info.parent / last_checkpoint_path.parent.name / last_checkpoint_path.name
+            last_checkpoint_path = last_info.parent / \
+                last_checkpoint_path.parent.name / last_checkpoint_path.name
         checkpoint = torch.load(last_checkpoint_path)
         base_model.load_state_dict(checkpoint['base-model'])
         scheduler.load_state_dict(checkpoint['scheduler'])
@@ -184,7 +184,8 @@ def main(args):
                     next(network.parameters()).device, int(num_bytes),
                     num_bytes / 1e3, num_bytes / 1e6, num_bytes / 1e9))
             max_bytes[epoch] = num_bytes
-        if epoch % 10 == 0: torch.cuda.empty_cache()
+        if epoch % 10 == 0:
+            torch.cuda.empty_cache()
 
         # save checkpoint
         save_path = save_checkpoint(
@@ -201,7 +202,8 @@ def main(args):
                 'scheduler': scheduler.state_dict(),
                 'optimizer': optimizer.state_dict(),
             }, model_base_path, logger)
-        if find_best: copy_checkpoint(model_base_path, model_best_path, logger)
+        if find_best:
+            copy_checkpoint(model_base_path, model_best_path, logger)
         last_info = save_checkpoint(
             {
                 'epoch': epoch,

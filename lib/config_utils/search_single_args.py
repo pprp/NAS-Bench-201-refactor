@@ -1,8 +1,5 @@
 import argparse
-import os
 import random
-import sys
-import time
 
 from .share_args import add_shared_args
 
@@ -23,7 +20,7 @@ def obtain_search_single_args():
     parser.add_argument('--search_shape',
                         type=str,
                         help='The shape to be searched.')
-    #parser.add_argument('--arch_para_pure',   type=int,                   help='The architecture-parameter pure or not.')
+    # parser.add_argument('--arch_para_pure',   type=int, help='The architecture-parameter pure or not.')
     parser.add_argument('--gumbel_tau_max',
                         type=float,
                         help='The maximum tau for Gumbel.')
@@ -55,7 +52,7 @@ def obtain_search_single_args():
     assert args.save_dir is not None, 'save-path argument can not be None'
     assert args.gumbel_tau_max is not None and args.gumbel_tau_min is not None
     assert args.FLOP_tolerant is not None and args.FLOP_tolerant > 0, 'invalid FLOP_tolerant : {:}'.format(
-        FLOP_tolerant)
-    #assert args.arch_para_pure is not None, 'arch_para_pure is not None: {:}'.format(args.arch_para_pure)
-    #args.arch_para_pure = bool(args.arch_para_pure)
+        args.FLOP_tolerant)
+    # assert args.arch_para_pure is not None, 'arch_para_pure is not None: {:}'.format(args.arch_para_pure)
+    # args.arch_para_pure = bool(args.arch_para_pure)
     return args

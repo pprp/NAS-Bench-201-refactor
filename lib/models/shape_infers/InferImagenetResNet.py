@@ -1,11 +1,7 @@
-import math
-
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 from ..initialization import initialize_resnet
-from ..SharedUtils import additive_func
 
 
 class ConvBNReLU(nn.Module):
@@ -15,8 +11,10 @@ class ConvBNReLU(nn.Module):
     def __init__(self, nIn, nOut, kernel, stride, padding, bias, has_avg,
                  has_bn, has_relu):
         super(ConvBNReLU, self).__init__()
-        if has_avg: self.avg = nn.AvgPool2d(kernel_size=2, stride=2, padding=0)
-        else: self.avg = None
+        if has_avg:
+            self.avg = nn.AvgPool2d(kernel_size=2, stride=2, padding=0)
+        else:
+            self.avg = None
         self.conv = nn.Conv2d(nIn,
                               nOut,
                               kernel_size=kernel,
@@ -25,19 +23,29 @@ class ConvBNReLU(nn.Module):
                               dilation=1,
                               groups=1,
                               bias=bias)
-        if has_bn: self.bn = nn.BatchNorm2d(nOut)
-        else: self.bn = None
-        if has_relu: self.relu = nn.ReLU(inplace=True)
-        else: self.relu = None
+        if has_bn:
+            self.bn = nn.BatchNorm2d(nOut)
+        else:
+            self.bn = None
+        if has_relu:
+            self.relu = nn.ReLU(inplace=True)
+        else:
+            self.relu = None
 
     def forward(self, inputs):
-        if self.avg: out = self.avg(inputs)
-        else: out = inputs
+        if self.avg:
+            out = self.avg(inputs)
+        else:
+            out = inputs
         conv = self.conv(out)
-        if self.bn: out = self.bn(conv)
-        else: out = conv
-        if self.relu: out = self.relu(out)
-        else: out = out
+        if self.bn:
+            out = self.bn(conv)
+        else:
+            out = conv
+        if self.relu:
+            out = self.relu(out)
+        else:
+            out = out
 
         return out
 
@@ -194,7 +202,7 @@ class InferImagenetResNet(nn.Module):
                  num_classes, zero_init_residual):
         super(InferImagenetResNet, self).__init__()
 
-        #Model type specifies number of layers for CIFAR-10 and CIFAR-100 model
+        # Model type specifies number of layers for CIFAR-10 and CIFAR-100 model
         if block_name == 'BasicBlock':
             block = ResNetBasicblock
         elif block_name == 'Bottleneck':

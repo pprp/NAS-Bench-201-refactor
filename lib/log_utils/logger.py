@@ -2,10 +2,10 @@
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ##################################################
 import importlib
-import os
 import sys
 import time
 import warnings
+from io import BytesIO, StringIO
 from pathlib import Path
 
 import numpy as np
@@ -141,7 +141,8 @@ class Logger(object):
 
     def histo_summary(self, tag, values, step, bins=1000):
         """Log a histogram of the tensor of values."""
-        if not self.use_tf: raise ValueError('Do not have tensorflow')
+        if not self.use_tf:
+            raise ValueError('Do not have tensorflow')
         import tensorflow as tf
 
         # Create a histogram using numpy
