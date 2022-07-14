@@ -5,15 +5,14 @@ import importlib
 import sys
 import time
 import warnings
-from io import BytesIO, StringIO
 from pathlib import Path
 
 import numpy as np
 
 if sys.version_info.major == 2:  # Python 2.x
-    from StringIO import StringIO as BIO
+    from StringIO import StringIO
 else:  # Python 3.x
-    from io import BytesIO as BIO
+    from io import BytesIO
 
 if importlib.util.find_spec('tensorflow'):
     import tensorflow as tf

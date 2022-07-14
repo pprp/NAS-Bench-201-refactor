@@ -11,18 +11,16 @@ from pathlib import Path
 import torch
 
 lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
-if str(lib_dir) not in sys.path: sys.path.insert(0, str(lib_dir))
-import pdb
-import time
+if str(lib_dir) not in sys.path:
+    sys.path.insert(0, str(lib_dir))
 
-from config_utils import configure2str, dict2config, load_config
+from config_utils import dict2config, load_config
 from datasets import get_datasets, get_nas_search_loaders
-from log_utils import AverageMeter, convert_secs2time, time_string
-from models import OPS_CODING, get_cell_based_tiny_net, get_search_spaces
+from log_utils import AverageMeter, time_string
+from models import get_cell_based_tiny_net, get_search_spaces
 from nas_102_api import NASBench102API as API
-from procedures import (copy_checkpoint, get_optim_scheduler, prepare_logger,
-                        prepare_seed, save_checkpoint)
-from utils import get_model_infos, obtain_accuracy
+from procedures import prepare_logger, prepare_seed
+from utils import get_model_infos
 from weight_angle import get_arch_angle
 
 
