@@ -44,7 +44,7 @@ do
     --save_dir ${save_dir} --max_nodes ${max_nodes} --channel ${channel} --num_cells ${num_cells} \
     --dataset ${dataset} --data_path ${data_path} --arch_idx ${arch_idx}\
     --search_space_name ${space} \
-    --arch_nas_dataset ${TORCH_HOME}/NAS-Bench-102-v1_0-e61699.pth \
+    --arch_nas_dataset ${TORCH_HOME}/NAS-Bench-201-v1_0-e61699.pth \
     --config_path ${config_path} \
     --track_running_stats 1 \
     --arch_learning_rate 0.0003 --arch_weight_decay 0.001 \

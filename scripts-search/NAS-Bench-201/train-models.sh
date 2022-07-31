@@ -20,7 +20,7 @@ xend=$3
 arch_index=$4
 all_seeds=$5
 
-save_dir=./output/NAS-BENCH-102-4/
+save_dir=./output/NAS-BENCH-201-4/
 
 if [ ${arch_index} == "-1" ]; then
   mode=new

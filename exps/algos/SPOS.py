@@ -12,6 +12,10 @@ import time
 from copy import deepcopy
 from pathlib import Path
 
+lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
+if str(lib_dir) not in sys.path:
+    sys.path.insert(0, str(lib_dir))
+
 import numpy as np
 import torch
 import torch.nn as nn
@@ -25,9 +29,7 @@ from procedures import (copy_checkpoint, get_optim_scheduler, prepare_logger,
                         prepare_seed, save_checkpoint)
 from utils import get_model_infos, obtain_accuracy
 
-lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
-if str(lib_dir) not in sys.path:
-    sys.path.insert(0, str(lib_dir))
+
 
 
 def search_func(xloader, network, criterion, scheduler, w_optimizer,

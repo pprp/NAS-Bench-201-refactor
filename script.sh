@@ -38,4 +38,4 @@ bash ./scripts-search/algos/train_a_standalone_model.sh cifar10 0 100 'standalon
 bash ./scripts-search/algos/get_angle_evolution.sh cifar10 0 100 'standalone_model'
 
 # visualization
-python3 exps/NAS-Bench-201/visualize.py --api_path ./NAS-Bench-102-v1_0-e61699.pth
+python3 exps/NAS-Bench-201/visualize.py --api_path ./NAS-Bench-201-v1_0-e61699.pth

@@ -41,7 +41,7 @@ OMP_NUM_THREADS=4 python3 ./exps/algos/ENAS.py \
 	--save_dir ${save_dir} --max_nodes ${max_nodes} --channel ${channel} --num_cells ${num_cells} \
 	--dataset ${dataset} --data_path ${data_path} \
 	--search_space_name ${space} \
-	--arch_nas_dataset ${TORCH_HOME}/NAS-Bench-102-v1_0-e61699.pth \
+	--arch_nas_dataset ${TORCH_HOME}/NAS-Bench-201-v1_0-e61699.pth \
 	--track_running_stats 1 \
 	--config_path ./configs/nas-benchmark/algos/ENAS.config \
 	--controller_entropy_weight 0.0001 \

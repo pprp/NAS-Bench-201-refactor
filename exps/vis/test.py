@@ -15,7 +15,7 @@ if str(lib_dir) not in sys.path:
 def test_nas_api():
     from nas_102_api import ArchResults
     xdata = torch.load(
-        '/home/dxy/FOR-RELEASE/NAS-Projects/output/NAS-BENCH-102-4/simplifies/architectures/000157-FULL.pth'
+        '/home/dxy/FOR-RELEASE/NAS-Projects/output/NAS-BENCH-201-4/simplifies/architectures/000157-FULL.pth'
     )
     for key in ['full', 'less']:
         print(
@@ -145,7 +145,7 @@ def test_one_shot_model(ckpath, use_train):
     search_model = get_cell_based_tiny_net(model_config)
     search_model.load_state_dict(ckp['search_model'])
     search_model = search_model.cuda()
-    api = API('/home/dxy/.torch/NAS-Bench-102-v1_0-e61699.pth')
+    api = API('/home/dxy/.torch/NAS-Bench-201-v1_0-e61699.pth')
     archs, probs, accuracies = evaluate_one_shot(search_model, valid_loader,
                                                  api, use_train)
 

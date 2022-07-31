@@ -18,7 +18,7 @@ model=$1
 channel=$2
 num_cells=$3
 
-save_dir=./output/NAS-BENCH-102-4/
+save_dir=./output/NAS-BENCH-201-4/
 
 OMP_NUM_THREADS=4 python ./exps/NAS-Bench-102/main.py \
 	--mode specific-${model} --save_dir ${save_dir} --max_node 4 \
