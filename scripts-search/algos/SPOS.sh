@@ -37,7 +37,7 @@ fi
 
 save_dir=./output/search-cell-nas-bench-102/SPOS-${dataset}
 
-OMP_NUM_THREADS=4 python3 ./exps/algos/SPOS.py \
+OMP_NUM_THREADS=4 CUDA_VISIBLE_DEVICES=0 python3 ./exps/algos/SPOS.py \
 	--save_dir ${save_dir} --max_nodes ${max_nodes} --channel ${channel} --num_cells ${num_cells} \
 	--dataset ${dataset} --data_path ${data_path} \
 	--search_space_name ${space} \

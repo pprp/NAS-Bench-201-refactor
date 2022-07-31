@@ -35,11 +35,7 @@ class NAS201SearchCell(nn.Module):
             for j in range(i):
                 node_str = '{:}<-{:}'.format(i, j)
                 if j == 0:
-                    xlists = [
-                        OPS[op_name](C_in, C_out, stride, affine,
-                                     track_running_stats)
-                        for op_name in op_names
-                    ]
+                    xlists = [OPS[op_name](C_in, C_out, stride, affine,track_running_stats) for op_name in op_names]
                 else:
                     xlists = [
                         OPS[op_name](C_in, C_out, 1, affine,
@@ -52,9 +48,7 @@ class NAS201SearchCell(nn.Module):
         self.num_edges = len(self.edges)
 
     def extra_repr(self):
-        string = 'info :: {max_nodes} nodes, inC={in_dim}, outC={out_dim}'.format(
-            **self.__dict__)
-        return string
+        return 'info :: {max_nodes} nodes, inC={in_dim}, outC={out_dim}'.format(**self.__dict__)
 
     def forward(self, inputs, weightss):
         nodes = [inputs]
@@ -114,13 +108,12 @@ class NAS201SearchCell(nn.Module):
                     candidates = self.edges[node_str]
                     select_op = random.choice(candidates)
                     sops.append(select_op)
-                    if not hasattr(select_op,
-                                   'is_zero') or select_op.is_zero is False:
+                    if not hasattr(select_op, 'is_zero') or select_op.is_zero is False:
                         has_non_zero = True
-                if has_non_zero: break
-            inter_nodes = []
-            for j, select_op in enumerate(sops):
-                inter_nodes.append(select_op(nodes[j]))
+                if has_non_zero: 
+                    break
+
+            inter_nodes = [select_op(nodes[j]) for j, select_op in enumerate(sops)]
             nodes.append(sum(inter_nodes))
         return nodes[-1]
 

@@ -30,13 +30,12 @@ class TinyNetworkSPOS(nn.Module):
 
         C_prev, num_edge, edge2index = C, None, None
         self.cells = nn.ModuleList()
-        for index, (C_curr, reduction) in enumerate(
-                zip(layer_channels, layer_reductions)):
+        for C_curr, reduction in zip(layer_channels, layer_reductions):
             if reduction:
                 cell = ResNetBasicblock(C_prev, C_curr, 2)
             else:
-                cell = SearchCell(C_prev, C_curr, 1, max_nodes, search_space,
-                                  affine, track_running_stats)
+                cell = SearchCell(C_prev, C_curr, 1, max_nodes, search_space, affine, track_running_stats)
+                
                 if num_edge is None:
                     num_edge, edge2index = cell.num_edges, cell.edge2index
                 else:
@@ -143,8 +142,8 @@ class TinyNetworkSPOS(nn.Module):
         return return_pairs
 
     def get_all_archs(self):
-        archs = Structure.gen_all(self.op_names, self.max_nodes, False)
-        return archs
+        """generate search space"""
+        return Structure.gen_all(self.op_names, self.max_nodes, False)
 
     def forward(self, inputs, operations=None):
         alphas = nn.functional.softmax(self.arch_parameters, dim=-1)

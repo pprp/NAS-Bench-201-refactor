@@ -22,22 +22,19 @@ def get_combination(space, num):
 
 class Structure:
     def __init__(self, genotype):
-        assert isinstance(genotype, list) or isinstance(
-            genotype, tuple), 'invalid class of genotype : {:}'.format(
-                type(genotype))
+        assert isinstance(genotype, (list, tuple)), 'invalid class of genotype : {:}'.format(type(genotype))
+
         self.node_num = len(genotype) + 1
         self.nodes = []
         self.node_N = []
         for idx, node_info in enumerate(genotype):
-            assert isinstance(node_info, list) or isinstance(
-                node_info, tuple), 'invalid class of node_info : {:}'.format(
-                    type(node_info))
+            assert isinstance(node_info, (list, tuple)), 'invalid class of node_info : {:}'.format(type(node_info))
+
             assert len(node_info) >= 1, 'invalid length : {:}'.format(
                 len(node_info))
             for node_in in node_info:
-                assert isinstance(node_in, list) or isinstance(
-                    node_in, tuple), 'invalid class of in-node : {:}'.format(
-                        type(node_in))
+                assert isinstance(node_in, (list, tuple)), 'invalid class of in-node : {:}'.format(type(node_in))
+
                 assert len(node_in) == 2 and node_in[
                     1] <= idx, 'invalid in-node : {:}'.format(node_in)
             self.node_N.append(len(node_info))
@@ -52,7 +49,7 @@ class Structure:
             node_info = list(node_info)
             node_info = sorted(node_info, key=lambda x: (x[1], x[0]))
             node_info = tuple(filter(lambda x: x[0] != remove_str, node_info))
-            if len(node_info) == 0: return None, False
+            if not node_info: return None, False
             genotypes.append(node_info)
         return genotypes, True
 
@@ -159,9 +156,8 @@ class Structure:
 
     @staticmethod
     def gen_all(search_space, num, return_ori):
-        assert isinstance(search_space, list) or isinstance(
-            search_space, tuple), 'invalid class of search-space : {:}'.format(
-                type(search_space))
+        assert isinstance(search_space, (list, tuple)), 'invalid class of search-space : {:}'.format(type(search_space))
+
         assert num >= 2, 'There should be at least two nodes in a neural cell instead of {:}'.format(
             num)
         all_archs = get_combination(search_space, 1)
@@ -175,10 +171,7 @@ class Structure:
                 for cur_node in cur_nodes:
                     new_all_archs.append(previous_arch + [tuple(cur_node)])
             all_archs = new_all_archs
-        if return_ori:
-            return all_archs
-        else:
-            return [Structure(x) for x in all_archs]
+        return all_archs if return_ori else [Structure(x) for x in all_archs]
 
 
 ResNet_CODE = Structure([
