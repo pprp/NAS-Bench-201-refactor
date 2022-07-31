@@ -338,7 +338,7 @@ def plot_standalone_model_rank(xlabel, ylabel, foldername, file_name):
 def plot_ranking_stability(xlabel, ylabel, foldername, file_name):
     def get_data(dataset):
         cor_data = torch.load(
-            'exps/NAS-Bench-102/corr_data/rebn_{}_all_diff_seed_tau_dict.tau'.
+            'exps/NAS-Bench-201/corr_data/rebn_{}_all_diff_seed_tau_dict.tau'.
             format(dataset))
 
         acc_data = cor_data['acc']
@@ -850,17 +850,17 @@ def plot_angle_evolution(xlabel, ylabel, foldername, file_name):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
-        description='NAS-Bench-102',
+        description='NAS-Bench-201',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         '--save_dir',
         type=str,
-        default='./output/search-cell-nas-bench-102/visuals',
+        default='./output/search-cell-nas-bench-201/visuals',
         help='The base-name of folder to save checkpoints and log.')
     parser.add_argument('--api_path',
                         type=str,
                         default=None,
-                        help='The path to the NAS-Bench-102 benchmark file.')
+                        help='The path to the NAS-Bench-201 benchmark file.')
     args = parser.parse_args()
 
     vis_save_dir = Path(args.save_dir)

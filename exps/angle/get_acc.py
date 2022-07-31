@@ -155,7 +155,7 @@ def main(xargs):
         'info'), logger.path('model'), logger.path('best')
     network, criterion = torch.nn.DataParallel(model).cuda(), criterion.cuda()
 
-    checkpoint_path = 'output/search-cell-nas-bench-102/result-{}/checkpoint/seed-{}_epoch-{}.pth'.format(
+    checkpoint_path = 'output/search-cell-nas-bench-201/result-{}/checkpoint/seed-{}_epoch-{}.pth'.format(
         xargs.dataset, xargs.rand_seed, xargs.epoch)
     if checkpoint_path is not None:  # automatically resume from previous checkpoint
         logger.log('=> loading checkpoint from {}'.format(checkpoint_path))

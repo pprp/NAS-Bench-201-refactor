@@ -104,8 +104,8 @@ def test_one_shot_model(ckpath, use_train):
     from models import get_cell_based_tiny_net, get_search_spaces
     from utils.nas_utils import evaluate_one_shot
     use_train = int(use_train) > 0
-    # ckpath = 'output/search-cell-nas-bench-102/DARTS-V1-cifar10/checkpoint/seed-11416-basic.pth'
-    # ckpath = 'output/search-cell-nas-bench-102/DARTS-V1-cifar10/checkpoint/seed-28640-basic.pth'
+    # ckpath = 'output/search-cell-nas-bench-201/DARTS-V1-cifar10/checkpoint/seed-11416-basic.pth'
+    # ckpath = 'output/search-cell-nas-bench-201/DARTS-V1-cifar10/checkpoint/seed-28640-basic.pth'
     print('ckpath : {:}'.format(ckpath))
     ckp = torch.load(ckpath)
     xargs = ckp['args']

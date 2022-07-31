@@ -22,7 +22,7 @@ space=darts
 if [ "$dataset" == "cifar10" ] || [ "$dataset" == "cifar100" ]; then
   data_path="$TORCH_HOME/cifar.python"
 else
-  data_path="$TORCH_HOME/cifar.python/ImageNet16"
+  data_path="$TORCH_HOME/ImageNet16"
 fi
 
 save_dir=./output/search-cell-${space}/GDAS-${dataset}-BN${track_running_stats}

@@ -14,7 +14,7 @@ import torch.nn.functional as F
 from ..cell_operations import OPS
 
 
-# This module is used for NAS-Bench-102, represents a small search space with a complete DAG
+# This module is used for NAS-Bench-201, represents a small search space with a complete DAG
 class NAS201SearchCell(nn.Module):
     def __init__(self,
                  C_in,

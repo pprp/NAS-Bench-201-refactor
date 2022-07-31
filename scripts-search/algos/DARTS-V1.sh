@@ -24,18 +24,18 @@ max_nodes=4
 
 
 if [ "$dataset" == "cifar10" ]; then
-  data_path="$TORCH_HOME/cifar.python/cifar10/"
+  data_path="$TORCH_HOME/cifar10/"
 fi
 
 if [ "$dataset" == "cifar100" ]; then
-  data_path="$TORCH_HOME/cifar.python/cifar100/"
+  data_path="$TORCH_HOME/cifar100/"
 fi
 
 if [ "$dataset" == "ImageNet16-120" ]; then
-  data_path="$TORCH_HOME/cifar.python/ImageNet16"
+  data_path="$TORCH_HOME/ImageNet16"
 fi
 
-save_dir=./output/search-cell-nas-bench-102/DARTS-V1-${dataset}
+save_dir=./output/search-cell-nas-bench-201/DARTS-V1-${dataset}
 
 OMP_NUM_THREADS=4 python3 ./exps/algos/DARTS-V1.py \
 	--save_dir ${save_dir} --max_nodes ${max_nodes} --channel ${channel} --num_cells ${num_cells} \

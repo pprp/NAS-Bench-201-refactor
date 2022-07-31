@@ -19,20 +19,20 @@ seed=$2
 channel=16
 num_cells=5
 max_nodes=4
-space=nas-bench-102
+space=nas-bench-201
 
 if [ "$dataset" == "cifar10" ]; then
-  data_path="$TORCH_HOME/cifar.python/cifar10/"
+  data_path="$TORCH_HOME/cifar10/"
   config_path="configs/nas-benchmark/algos/SPOS_standalone_cifar10.config"
 fi
 
 if [ "$dataset" == "cifar100" ]; then
-  data_path="$TORCH_HOME/cifar.python/cifar100/"
+  data_path="$TORCH_HOME/cifar100/"
   config_path="configs/nas-benchmark/algos/SPOS_standalone_cifar100.config"
 fi
 
 if [ "$dataset" == "ImageNet16-120" ]; then
-  data_path="$TORCH_HOME/cifar.python/ImageNet16"
+  data_path="$TORCH_HOME/ImageNet16"
   config_path="configs/nas-benchmark/algos/SPOS_standalone_imagenet.config"
 fi
 

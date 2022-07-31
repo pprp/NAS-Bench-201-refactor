@@ -1,5 +1,5 @@
 #!/bin/bash
-# bash scripts-search/NAS-Bench-102/build.sh
+# bash scripts-search/NAS-Bench-201/build.sh
 echo script name: $0
 echo $# arguments
 if [ "$#" -ne 0 ] ;then
@@ -13,12 +13,12 @@ echo "Prepare to build the package in ${save_dir}"
 rm -rf ${save_dir}
 mkdir -p ${save_dir}
 
-#cp NAS-Bench-102.md ${save_dir}/README.md
-sed '125,187d' NAS-Bench-102.md > ${save_dir}/README.md
+#cp NAS-Bench-201.md ${save_dir}/README.md
+sed '125,187d' NAS-Bench-201.md > ${save_dir}/README.md
 cp LICENSE.md ${save_dir}/LICENSE.md
 cp -r lib/nas_201_api ${save_dir}/
 rm -rf ${save_dir}/nas_201_api/__pycache__
-cp exps/NAS-Bench-102/dist-setup.py ${save_dir}/setup.py
+cp exps/NAS-Bench-201/dist-setup.py ${save_dir}/setup.py
 
 cd ${save_dir}
 # python setup.py sdist bdist_wheel

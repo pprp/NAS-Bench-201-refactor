@@ -21,7 +21,7 @@ space=$3 # Based on NAS-Bench-201, we design 11 shrunk search spaces of various 
 channel=16
 num_cells=5
 max_nodes=4
-# space=nas-bench-102
+# space=nas-bench-201
 
 if [ "$dataset" == "cifar10" ]; then
   data_path="$TORCH_HOME/cifar10/"
@@ -35,7 +35,7 @@ if [ "$dataset" == "ImageNet16-120" ]; then
   data_path="$TORCH_HOME/ImageNet16"
 fi
 
-save_dir=./output/search-cell-nas-bench-102/SPOS-${dataset}
+save_dir=./output/search-cell-nas-bench-201/SPOS-${dataset}
 
 OMP_NUM_THREADS=4 CUDA_VISIBLE_DEVICES=0 python3 ./exps/algos/SPOS.py \
 	--save_dir ${save_dir} --max_nodes ${max_nodes} --channel ${channel} --num_cells ${num_cells} \

@@ -21,23 +21,23 @@ epochs=$3
 channel=16
 num_cells=5
 max_nodes=4
-space=nas-bench-102
+space=nas-bench-201
 
 if [ "$dataset" == "cifar10" ]; then
-  data_path="$TORCH_HOME/cifar.python/cifar10/"
+  data_path="$TORCH_HOME/cifar10/"
 fi
 
 if [ "$dataset" == "cifar100" ]; then
-  data_path="$TORCH_HOME/cifar.python/cifar100/"
+  data_path="$TORCH_HOME/cifar100/"
 fi
 
 if [ "$dataset" == "ImageNet16-120" ]; then
-  data_path="$TORCH_HOME/cifar.python/ImageNet16"
+  data_path="$TORCH_HOME/ImageNet16"
 fi
 
 save_dir=./output/search-cell-${space}/result-${dataset}
 
-OMP_NUM_THREADS=4 python3 ./exps/angle/train_supernet.py \
+OMP_NUM_THREADS=4 CUDA_VISIBLE_DEVICES=1 python3 ./exps/angle/train_supernet.py \
 	--save_dir ${save_dir} --max_nodes ${max_nodes} --channel ${channel} --num_cells ${num_cells} \
 	--dataset ${dataset} --data_path ${data_path} --epochs ${epochs}\
 	--search_space_name ${space} \

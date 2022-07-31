@@ -4,7 +4,7 @@
 #ratios='0.5 0.8 0.9'
 ratios='0.5'
 save_dir=./.latent-data/splits
-export TORCH_HOME='/data/NAS-ECCV/NAS-Bench-102'
+export TORCH_HOME='/data/NAS-ECCV/NAS-Bench-201'
 
 for ratio in ${ratios}
 do

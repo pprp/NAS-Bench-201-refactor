@@ -89,7 +89,7 @@ def main(xargs):
 
     angles = {}
     for arch_idx in range(0, 10000, 200):
-        checkpoint_path_template = 'output/search-cell-nas-bench-102/result-{}/standalone_arch-{}/checkpoint/seed-{}_epoch-{}.pth'
+        checkpoint_path_template = 'output/search-cell-nas-bench-201/result-{}/standalone_arch-{}/checkpoint/seed-{}_epoch-{}.pth'
         logger.log('=> loading checkpoint from {}'.format(
             checkpoint_path_template.format(args.dataset, arch_idx,
                                             args.rand_seed, 0)))

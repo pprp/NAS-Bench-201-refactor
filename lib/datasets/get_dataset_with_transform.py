@@ -331,5 +331,5 @@ def get_nas_search_loaders(train_data, valid_data, dataset, config_root,
 
 
 #if __name__ == '__main__':
-#  train_data, test_data, xshape, class_num = dataset = get_datasets('cifar10', '/data02/dongxuanyi/.torch/cifar.python/', -1)
+#  train_data, test_data, xshape, class_num = dataset = get_datasets('cifar10', '/data02/dongxuanyi/.torch/', -1)
 #  import pdb; pdb.set_trace()

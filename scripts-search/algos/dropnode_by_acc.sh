@@ -21,18 +21,18 @@ exp_name=$4
 channel=16
 num_cells=5
 max_nodes=4
-space=nas-bench-102
+space=nas-bench-201
 
 if [ "$dataset" == "cifar10" ]; then
-  data_path="$TORCH_HOME/cifar.python/cifar10/"
+  data_path="$TORCH_HOME/cifar10/"
 fi
 
 if [ "$dataset" == "cifar100" ]; then
-  data_path="$TORCH_HOME/cifar.python/cifar100/"
+  data_path="$TORCH_HOME/cifar100/"
 fi
 
 if [ "$dataset" == "ImageNet16-120" ]; then
-  data_path="$TORCH_HOME/cifar.python/ImageNet16"
+  data_path="$TORCH_HOME/ImageNet16"
 fi
 
 save_dir=./output/test-cell-${space}/result-${dataset}/${exp_name}

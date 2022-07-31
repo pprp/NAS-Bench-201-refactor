@@ -29,7 +29,7 @@ NAS_BENCH_201 = [
 ]
 
 SearchSpaceNames = {
-    'nas-bench-102': NAS_BENCH_201,
+    'nas-bench-201': NAS_BENCH_201,
 }
 
 

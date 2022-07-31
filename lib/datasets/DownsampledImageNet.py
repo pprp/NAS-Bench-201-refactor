@@ -130,17 +130,17 @@ class ImageNet16(data.Dataset):
 
 #
 if __name__ == '__main__':
-    train = ImageNet16('/data02/dongxuanyi/.torch/cifar.python/ImageNet16',
+    train = ImageNet16('/data02/dongxuanyi/.torch/ImageNet16',
                        True, None)
-    valid = ImageNet16('/data02/dongxuanyi/.torch/cifar.python/ImageNet16',
+    valid = ImageNet16('/data02/dongxuanyi/.torch/ImageNet16',
                        False, None)
 
     print(len(train))
     print(len(valid))
     image, label = train[111]
-    trainX = ImageNet16('/data02/dongxuanyi/.torch/cifar.python/ImageNet16',
+    trainX = ImageNet16('/data02/dongxuanyi/.torch/ImageNet16',
                         True, None, 200)
-    validX = ImageNet16('/data02/dongxuanyi/.torch/cifar.python/ImageNet16',
+    validX = ImageNet16('/data02/dongxuanyi/.torch/ImageNet16',
                         False, None, 200)
     print(len(trainX))
     print(len(validX))

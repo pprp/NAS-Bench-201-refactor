@@ -1,7 +1,7 @@
 ##################################################
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ##################################################
-# The macro structure is defined in NAS-Bench-102
+# The macro structure is defined in NAS-Bench-201
 from .genotypes import Structure as CellStructure
 from .genotypes import architectures as CellArchitectures
 from .search_model_darts import TinyNetworkDarts

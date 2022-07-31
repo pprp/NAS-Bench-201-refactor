@@ -79,7 +79,7 @@ def main(xargs):
     last_info, model_base_path, model_best_path = logger.path(
         'info'), logger.path('model'), logger.path('best')
 
-    checkpoint_path_template = 'output/search-cell-nas-bench-102/result-{}/checkpoint/seed-{}_epoch-{}.pth'
+    checkpoint_path_template = 'output/search-cell-nas-bench-201/result-{}/checkpoint/seed-{}_epoch-{}.pth'
     if checkpoint_path_template is not None:  # automatically resume from previous checkpoint
         logger.log('=> loading checkpoint from {}'.format(
             checkpoint_path_template.format(xargs.dataset, xargs.rand_seed,

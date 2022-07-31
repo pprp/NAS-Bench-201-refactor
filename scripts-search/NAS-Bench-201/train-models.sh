@@ -28,7 +28,7 @@ else
   mode=cover
 fi
 
-OMP_NUM_THREADS=4 python3 ./exps/NAS-Bench-102/main.py \
+OMP_NUM_THREADS=4 python3 ./exps/NAS-Bench-201/main.py \
 	--mode ${mode} --save_dir ${save_dir} --max_node 4 \
 	--use_less ${use_less} \
 	--datasets cifar10 cifar10 cifar100 ImageNet16-120 \
@@ -36,7 +36,7 @@ OMP_NUM_THREADS=4 python3 ./exps/NAS-Bench-102/main.py \
 	--xpaths $TORCH_HOME/cifar.python \
 		 $TORCH_HOME/cifar.python \
 		 $TORCH_HOME/cifar.python \
-		 $TORCH_HOME/cifar.python/ImageNet16 \
+		 $TORCH_HOME/ImageNet16 \
 	--channel 16 --num_cells 5 \
 	--workers 4 \
 	--srange ${xstart} ${xend} --arch_index ${arch_index} \
