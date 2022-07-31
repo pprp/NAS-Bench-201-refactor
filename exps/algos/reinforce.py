@@ -24,7 +24,7 @@ from config_utils import configure2str, dict2config, load_config
 from datasets import SearchDataset, get_datasets
 from log_utils import AverageMeter, convert_secs2time, time_string
 from models import CellStructure, get_search_spaces
-from nas_201_api import NASBench102API as API
+from nas_201_api import NASBench201API as API
 from procedures import (copy_checkpoint, get_optim_scheduler, prepare_logger,
                         prepare_seed, save_checkpoint)
 from R_EA import train_and_eval

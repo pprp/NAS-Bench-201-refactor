@@ -5,7 +5,7 @@ from copy import deepcopy
 from pathlib import Path
 
 import torch
-from nas_201_api import NASBench102API as API
+from nas_201_api import NASBench201API as API
 
 lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
 if str(lib_dir) not in sys.path:

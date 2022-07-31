@@ -24,7 +24,7 @@ from datasets import get_datasets, get_nas_search_loaders
 from log_utils import AverageMeter, convert_secs2time, time_string
 from models import (get_cell_based_tiny_net, get_search_spaces,
                     get_sub_search_spaces)
-from nas_201_api import NASBench102API as API
+from nas_201_api import NASBench201API as API
 from procedures import (copy_checkpoint, get_optim_scheduler, prepare_logger,
                         prepare_seed, save_checkpoint)
 from utils import get_model_infos, obtain_accuracy
@@ -76,8 +76,6 @@ def search_func(xloader, network, criterion, scheduler, w_optimizer,
             Astr = 'Arch [Loss {loss.val:.3f} ({loss.avg:.3f})  Prec@1 {top1.val:.2f} ({top1.avg:.2f}) Prec@5 {top5.val:.2f} ({top5.avg:.2f})]'.format(
                 loss=arch_losses, top1=arch_top1, top5=arch_top5)
             logger.log(f'{Sstr} {Tstr} {Wstr} {Astr}')
-            #print (nn.functional.softmax(network.module.arch_parameters, dim=-1))
-            #print (network.module.arch_parameters)
     return base_losses.avg, base_top1.avg, base_top5.avg, arch_losses.avg, arch_top1.avg, arch_top5.avg
 
 
@@ -104,12 +102,42 @@ def get_best_arch(xloader, network, n_samples):
 
             valid_accs.append(val_top1.item())
             if i % 10 == 0:
-                print ('--- {:}/{:} : {:} : {:}'.format(i, len(archs), sampled_arch, val_top1))
+                print('--- {:}/{:} : {:} : {:}'.format(i, len(archs), sampled_arch, val_top1))
 
         best_idx = np.argmax(valid_accs)
         best_arch, best_valid_acc = archs[best_idx], valid_accs[best_idx]
         return best_arch, best_valid_acc
 
+
+# TODO 
+def calc_rank_correlation(xloader, network, n_samples):
+    """选1/10的样本进行"""
+    with torch.no_grad():
+        network.eval()
+        archs, valid_accs = network.module.get_all_archs(), []
+        random.shuffle(archs)
+        archs = random.sample(archs, k=n_samples)
+        
+        loader_iter = iter(xloader)
+        for i, sampled_arch in enumerate(archs):
+            network.module.set_cal_mode('dynamic', sampled_arch)
+            try:
+                inputs, targets = next(loader_iter)
+            except:
+                loader_iter = iter(xloader)
+                inputs, targets = next(loader_iter)
+
+            _, logits = network(inputs)
+            val_top1, val_top5 = obtain_accuracy(logits.cpu().data,targets.data,topk=(1, 5))
+
+
+            valid_accs.append(val_top1.item())
+            if i % 10 == 0:
+                print('--- {:}/{:} : {:} : {:}'.format(i, len(archs), sampled_arch, val_top1))
+
+        best_idx = np.argmax(valid_accs)
+        best_arch, best_valid_acc = archs[best_idx], valid_accs[best_idx]
+        return best_arch, best_valid_acc
 
 def valid_func(xloader, network, criterion):
     data_time, batch_time = AverageMeter(), AverageMeter()
@@ -210,6 +238,7 @@ def main(xargs):
 
     last_info, model_base_path, model_best_path = logger.path(
         'info'), logger.path('model'), logger.path('best')
+    
     network, criterion = torch.nn.DataParallel(search_model).cuda(), criterion.cuda()
 
     if last_info.exists():  # automatically resume from previous checkpoint

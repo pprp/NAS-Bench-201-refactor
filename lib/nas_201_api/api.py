@@ -61,7 +61,7 @@ def print_information(information, extra_info=None, show=False):
     return strings
 
 
-class NASBench102API(object):
+class NASBench201API(object):
     def __init__(self, file_path_or_dict, verbose=True):
         if isinstance(file_path_or_dict, str):
             if verbose:
