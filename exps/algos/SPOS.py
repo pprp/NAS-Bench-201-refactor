@@ -24,12 +24,10 @@ from datasets import get_datasets, get_nas_search_loaders
 from log_utils import AverageMeter, convert_secs2time, time_string
 from models import (get_cell_based_tiny_net, get_search_spaces,
                     get_sub_search_spaces)
-from nas_102_api import NASBench102API as API
+from nas_201_api import NASBench102API as API
 from procedures import (copy_checkpoint, get_optim_scheduler, prepare_logger,
                         prepare_seed, save_checkpoint)
 from utils import get_model_infos, obtain_accuracy
-
-
 
 
 def search_func(xloader, network, criterion, scheduler, w_optimizer,
@@ -69,15 +67,15 @@ def search_func(xloader, network, criterion, scheduler, w_optimizer,
         end = time.time()
 
         if step % print_freq == 0 or step + 1 == len(xloader):
-            Sstr = '*SEARCH* ' + time_string(
-            ) + ' [{:}][{:03d}/{:03d}]'.format(epoch_str, step, len(xloader))
+            Sstr = f'*SEARCH* {time_string()}' + ' [{:}][{:03d}/{:03d}]'.format(epoch_str, step, len(xloader))
+
             Tstr = 'Time {batch_time.val:.2f} ({batch_time.avg:.2f}) Data {data_time.val:.2f} ({data_time.avg:.2f})'.format(
                 batch_time=batch_time, data_time=data_time)
             Wstr = 'Base [Loss {loss.val:.3f} ({loss.avg:.3f})  Prec@1 {top1.val:.2f} ({top1.avg:.2f}) Prec@5 {top5.val:.2f} ({top5.avg:.2f})]'.format(
                 loss=base_losses, top1=base_top1, top5=base_top5)
             Astr = 'Arch [Loss {loss.val:.3f} ({loss.avg:.3f})  Prec@1 {top1.val:.2f} ({top1.avg:.2f}) Prec@5 {top5.val:.2f} ({top5.avg:.2f})]'.format(
                 loss=arch_losses, top1=arch_top1, top5=arch_top5)
-            logger.log(Sstr + ' ' + Tstr + ' ' + Wstr + ' ' + Astr)
+            logger.log(f'{Sstr} {Tstr} {Wstr} {Astr}')
             #print (nn.functional.softmax(network.module.arch_parameters, dim=-1))
             #print (network.module.arch_parameters)
     return base_losses.avg, base_top1.avg, base_top5.avg, arch_losses.avg, arch_top1.avg, arch_top5.avg
@@ -154,9 +152,11 @@ def main(xargs):
         'class_num': class_num,
         'xshape': xshape
     }, logger)
+    
     search_loader, _, valid_loader = get_nas_search_loaders(
         train_data, valid_data, xargs.dataset, 'configs/nas-benchmark/',
         (config.batch_size, config.test_batch_size), xargs.workers)
+    
     logger.log(
         '||||||| {:10s} ||||||| Search-Loader-Num={:}, Valid-Loader-Num={:}, batch size={:}'
         .format(xargs.dataset, len(search_loader), len(valid_loader),
@@ -164,11 +164,12 @@ def main(xargs):
     logger.log('||||||| {:10s} ||||||| Config={:}'.format(
         xargs.dataset, config))
 
+    # 生成了11个子搜索空间
     search_space = get_sub_search_spaces('cell', xargs.search_space_name)
     logger.log('search_space={}'.format(search_space))
     model_config = dict2config(
         {
-            'name': 'SETN',
+            'name': 'SPOS',
             'C': xargs.channel,
             'N': xargs.num_cells,
             'max_nodes': xargs.max_nodes,
@@ -178,6 +179,8 @@ def main(xargs):
             'track_running_stats': bool(xargs.track_running_stats)
         }, None)
     logger.log('search space : {:}'.format(search_space))
+    
+    # 根据config确定模型 
     search_model = get_cell_based_tiny_net(model_config)
 
     w_optimizer, w_scheduler, criterion = get_optim_scheduler(
@@ -186,6 +189,7 @@ def main(xargs):
                                    lr=xargs.arch_learning_rate,
                                    betas=(0.5, 0.999),
                                    weight_decay=xargs.arch_weight_decay)
+    
     logger.log('w-optimizer : {:}'.format(w_optimizer))
     logger.log('a-optimizer : {:}'.format(a_optimizer))
     logger.log('w-scheduler : {:}'.format(w_scheduler))
@@ -194,16 +198,18 @@ def main(xargs):
     # logger.log('{:}'.format(search_model))
     logger.log('FLOP = {:.2f} M, Params = {:.2f} MB'.format(flop, param))
     logger.log('search-space : {:}'.format(search_space))
+    
+    # 构建API
     if xargs.arch_nas_dataset is None:
         api = None
     else:
         api = API(xargs.arch_nas_dataset)
+        
     logger.log('{:} create API = {:} done'.format(time_string(), api))
 
     last_info, model_base_path, model_best_path = logger.path(
         'info'), logger.path('model'), logger.path('best')
-    network, criterion = torch.nn.DataParallel(
-        search_model).cuda(), criterion.cuda()
+    network, criterion = torch.nn.DataParallel(search_model).cuda(), criterion.cuda()
 
     if last_info.exists():  # automatically resume from previous checkpoint
         logger.log("=> loading checkpoint of the last-info '{:}' start".format(

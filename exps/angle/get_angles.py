@@ -18,7 +18,7 @@ from config_utils import dict2config, load_config
 from datasets import get_datasets, get_nas_search_loaders
 from log_utils import AverageMeter, time_string
 from models import get_cell_based_tiny_net, get_search_spaces
-from nas_102_api import NASBench102API as API
+from nas_201_api import NASBench102API as API
 from procedures import prepare_logger, prepare_seed
 from utils import get_model_infos
 from weight_angle import get_arch_angle

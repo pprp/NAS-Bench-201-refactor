@@ -61,7 +61,7 @@ OPS_CODING = {
 }
 
 CONNECT_NAS_BENCHMARK = ['none', 'skip_connect', 'nor_conv_3x3']
-NAS_BENCH_102 = [
+NAS_BENCH_201 = [
     'none', 'skip_connect', 'nor_conv_1x1', 'nor_conv_3x3', 'avg_pool_3x3'
 ]
 DARTS_SPACE = [
@@ -71,8 +71,8 @@ DARTS_SPACE = [
 
 SearchSpaceNames = {
     'connect-nas': CONNECT_NAS_BENCHMARK,
-    'aa-nas': NAS_BENCH_102,
-    'nas-bench-102': NAS_BENCH_102,
+    'aa-nas': NAS_BENCH_201,
+    'nas-bench-102': NAS_BENCH_201,
     'darts': DARTS_SPACE
 }
 

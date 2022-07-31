@@ -25,7 +25,7 @@ from config_utils import configure2str, dict2config, load_config
 from datasets import get_datasets, get_nas_search_loaders
 from log_utils import AverageMeter, convert_secs2time, time_string
 from models import get_cell_based_tiny_net, get_search_spaces
-from nas_102_api import NASBench102API as API
+from nas_201_api import NASBench102API as API
 from procedures import (copy_checkpoint, get_optim_scheduler, prepare_logger,
                         prepare_seed, save_checkpoint)
 from utils import get_model_infos, obtain_accuracy

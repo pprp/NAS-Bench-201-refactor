@@ -13,7 +13,7 @@ from .search_model_random import TinyNetworkRANDOM
 from .search_model_setn import TinyNetworkSETN
 from .search_model_spos import TinyNetworkSPOS
 
-nas102_super_nets = {
+nas201_super_nets = {
     'DARTS-V1': TinyNetworkDarts,
     'DARTS-V2': TinyNetworkDarts,
     'GDAS': TinyNetworkGDAS,

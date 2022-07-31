@@ -29,7 +29,7 @@ import matplotlib.patches as mpatches
 import pandas as pd
 import seaborn as sns
 from log_utils import time_string
-from nas_102_api import NASBench102API as API
+from nas_201_api import NASBench102API as API
 
 # ================== ABS ===================
 

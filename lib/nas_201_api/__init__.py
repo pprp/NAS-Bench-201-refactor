@@ -3,4 +3,4 @@
 ##################################################
 from .api import ArchResults, NASBench102API, ResultsCount
 
-NAS_BENCH_102_API_VERSION = 'v1.0'
+NAS_BENCH_201_API_VERSION = 'v1.0'

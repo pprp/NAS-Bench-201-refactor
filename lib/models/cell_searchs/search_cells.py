@@ -15,7 +15,7 @@ from ..cell_operations import OPS
 
 
 # This module is used for NAS-Bench-102, represents a small search space with a complete DAG
-class NAS102SearchCell(nn.Module):
+class NAS201SearchCell(nn.Module):
     def __init__(self,
                  C_in,
                  C_out,
@@ -24,7 +24,7 @@ class NAS102SearchCell(nn.Module):
                  op_names,
                  affine=False,
                  track_running_stats=True):
-        super(NAS102SearchCell, self).__init__()
+        super(NAS201SearchCell, self).__init__()
 
         self.op_names = deepcopy(op_names)
         self.edges = nn.ModuleDict()

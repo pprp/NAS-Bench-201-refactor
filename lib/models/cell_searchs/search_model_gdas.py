@@ -8,7 +8,7 @@ import torch.nn as nn
 
 from ..cell_operations import ResNetBasicblock
 from .genotypes import Structure
-from .search_cells import NAS102SearchCell as SearchCell
+from .search_cells import NAS201SearchCell as SearchCell
 
 
 class TinyNetworkGDAS(nn.Module):

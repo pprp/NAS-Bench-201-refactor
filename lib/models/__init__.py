@@ -18,12 +18,14 @@ from .SharedUtils import change_key
 
 # Cell-based NAS Models
 def get_cell_based_tiny_net(config):
+    # TODO
     super_type = getattr(config, 'super_type', 'basic')
+    
     group_names = [
         'DARTS-V1', 'DARTS-V2', 'GDAS', 'SETN', 'ENAS', 'RANDOM', 'SPOS'
     ]
     if super_type == 'basic' and config.name in group_names:
-        from .cell_searchs import nas102_super_nets as nas_super_nets
+        from .cell_searchs import nas201_super_nets as nas_super_nets
         try:
             return nas_super_nets[config.name](config.C, config.N,
                                                config.max_nodes,
@@ -59,9 +61,8 @@ def get_search_spaces(xtype, name):
 
 
 def get_sub_search_spaces(xtype, name):
-    NAS_BENCH_102 = [[
-        'none', 'skip_connect', 'nor_conv_1x1', 'nor_conv_3x3', 'avg_pool_3x3'
-    ], ['skip_connect', 'nor_conv_1x1', 'nor_conv_3x3', 'avg_pool_3x3'],
+    NAS_BENCH_201 = [['none', 'skip_connect', 'nor_conv_1x1', 'nor_conv_3x3', 'avg_pool_3x3'], 
+                     ['skip_connect', 'nor_conv_1x1', 'nor_conv_3x3', 'avg_pool_3x3'],
                      ['none', 'nor_conv_1x1', 'nor_conv_3x3', 'avg_pool_3x3'],
                      ['none', 'skip_connect', 'nor_conv_3x3', 'avg_pool_3x3'],
                      ['none', 'skip_connect', 'nor_conv_1x1', 'avg_pool_3x3'],
@@ -73,7 +74,7 @@ def get_sub_search_spaces(xtype, name):
                      ['nor_conv_1x1', 'nor_conv_3x3']]
 
     if xtype == 'cell':
-        return NAS_BENCH_102[int(name)]
+        return NAS_BENCH_201[int(name)]
     else:
         raise ValueError('invalid search-space type is {:}'.format(xtype))
 

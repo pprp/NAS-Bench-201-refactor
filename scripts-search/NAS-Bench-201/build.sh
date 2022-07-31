@@ -8,7 +8,7 @@ if [ "$#" -ne 0 ] ;then
   exit 1
 fi
 
-save_dir=./output/nas_bench_102_package
+save_dir=./output/NAS_BENCH_201_package
 echo "Prepare to build the package in ${save_dir}"
 rm -rf ${save_dir}
 mkdir -p ${save_dir}
@@ -16,8 +16,8 @@ mkdir -p ${save_dir}
 #cp NAS-Bench-102.md ${save_dir}/README.md
 sed '125,187d' NAS-Bench-102.md > ${save_dir}/README.md
 cp LICENSE.md ${save_dir}/LICENSE.md
-cp -r lib/nas_102_api ${save_dir}/
-rm -rf ${save_dir}/nas_102_api/__pycache__
+cp -r lib/nas_201_api ${save_dir}/
+rm -rf ${save_dir}/nas_201_api/__pycache__
 cp exps/NAS-Bench-102/dist-setup.py ${save_dir}/setup.py
 
 cd ${save_dir}

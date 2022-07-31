@@ -5,7 +5,7 @@ from copy import deepcopy
 from pathlib import Path
 
 import torch
-from nas_102_api import NASBench102API as API
+from nas_201_api import NASBench102API as API
 
 lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
 if str(lib_dir) not in sys.path:
@@ -13,7 +13,7 @@ if str(lib_dir) not in sys.path:
 
 
 def test_nas_api():
-    from nas_102_api import ArchResults
+    from nas_201_api import ArchResults
     xdata = torch.load(
         '/home/dxy/FOR-RELEASE/NAS-Projects/output/NAS-BENCH-201-4/simplifies/architectures/000157-FULL.pth'
     )
