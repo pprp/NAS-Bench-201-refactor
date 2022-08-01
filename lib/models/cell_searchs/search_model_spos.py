@@ -25,8 +25,11 @@ class TinyNetworkSPOS(nn.Module):
             nn.Conv2d(3, C, kernel_size=3, padding=1, bias=False),
             nn.BatchNorm2d(C))
 
-        layer_channels = [C] * N + [C * 2] + [C * 2] * N + [C * 4] + [C * 4] * N
-        layer_reductions = [False] * N + [True] + [False] * N + [True] + [False] * N
+        layer_channels = [C] * N + [C * 2] + [C * 2] * N + [C * 4
+                                                            ] + [C * 4] * N
+        layer_reductions = [False] * N + [True] + [False] * N + [
+            True
+        ] + [False] * N
 
         C_prev, num_edge, edge2index = C, None, None
         self.cells = nn.ModuleList()
@@ -34,8 +37,9 @@ class TinyNetworkSPOS(nn.Module):
             if reduction:
                 cell = ResNetBasicblock(C_prev, C_curr, 2)
             else:
-                cell = SearchCell(C_prev, C_curr, 1, max_nodes, search_space, affine, track_running_stats)
-                
+                cell = SearchCell(C_prev, C_curr, 1, max_nodes, search_space,
+                                  affine, track_running_stats)
+
                 if num_edge is None:
                     num_edge, edge2index = cell.num_edges, cell.edge2index
                 else:
@@ -49,7 +53,7 @@ class TinyNetworkSPOS(nn.Module):
         self.lastact = nn.Sequential(nn.BatchNorm2d(C_prev),
                                      nn.ReLU(inplace=True))
         self.global_pooling = nn.AdaptiveAvgPool2d(1)
-        
+
         self.classifier = nn.Linear(C_prev, num_classes)
         self.arch_parameters = nn.Parameter(
             1e-3 * torch.randn(num_edge, len(search_space)))

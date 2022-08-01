@@ -22,18 +22,26 @@ def get_combination(space, num):
 
 class Structure:
     def __init__(self, genotype):
-        assert isinstance(genotype, (list, tuple)), 'invalid class of genotype : {:}'.format(type(genotype))
+        assert isinstance(
+            genotype, (list, tuple)), 'invalid class of genotype : {:}'.format(
+                type(genotype))
 
         self.node_num = len(genotype) + 1
         self.nodes = []
         self.node_N = []
         for idx, node_info in enumerate(genotype):
-            assert isinstance(node_info, (list, tuple)), 'invalid class of node_info : {:}'.format(type(node_info))
+            assert isinstance(
+                node_info,
+                (list, tuple)), 'invalid class of node_info : {:}'.format(
+                    type(node_info))
 
             assert len(node_info) >= 1, 'invalid length : {:}'.format(
                 len(node_info))
             for node_in in node_info:
-                assert isinstance(node_in, (list, tuple)), 'invalid class of in-node : {:}'.format(type(node_in))
+                assert isinstance(
+                    node_in,
+                    (list, tuple)), 'invalid class of in-node : {:}'.format(
+                        type(node_in))
 
                 assert len(node_in) == 2 and node_in[
                     1] <= idx, 'invalid in-node : {:}'.format(node_in)
@@ -156,7 +164,10 @@ class Structure:
 
     @staticmethod
     def gen_all(search_space, num, return_ori):
-        assert isinstance(search_space, (list, tuple)), 'invalid class of search-space : {:}'.format(type(search_space))
+        assert isinstance(
+            search_space,
+            (list, tuple)), 'invalid class of search-space : {:}'.format(
+                type(search_space))
 
         assert num >= 2, 'There should be at least two nodes in a neural cell instead of {:}'.format(
             num)

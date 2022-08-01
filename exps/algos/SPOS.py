@@ -67,7 +67,8 @@ def search_func(xloader, network, criterion, scheduler, w_optimizer,
         end = time.time()
 
         if step % print_freq == 0 or step + 1 == len(xloader):
-            Sstr = f'*SEARCH* {time_string()}' + ' [{:}][{:03d}/{:03d}]'.format(epoch_str, step, len(xloader))
+            Sstr = f'*SEARCH* {time_string()}' + ' [{:}][{:03d}/{:03d}]'.format(
+                epoch_str, step, len(xloader))
 
             Tstr = 'Time {batch_time.val:.2f} ({batch_time.avg:.2f}) Data {data_time.val:.2f} ({data_time.avg:.2f})'.format(
                 batch_time=batch_time, data_time=data_time)
@@ -102,14 +103,15 @@ def get_best_arch(xloader, network, n_samples):
 
             valid_accs.append(val_top1.item())
             if i % 10 == 0:
-                print('--- {:}/{:} : {:} : {:}'.format(i, len(archs), sampled_arch, val_top1))
+                print('--- {:}/{:} : {:} : {:}'.format(i, len(archs),
+                                                       sampled_arch, val_top1))
 
         best_idx = np.argmax(valid_accs)
         best_arch, best_valid_acc = archs[best_idx], valid_accs[best_idx]
         return best_arch, best_valid_acc
 
 
-# TODO 
+# TODO
 def calc_rank_correlation(xloader, network, n_samples):
     """选1/10的样本进行"""
     with torch.no_grad():
@@ -117,7 +119,7 @@ def calc_rank_correlation(xloader, network, n_samples):
         archs, valid_accs = network.module.get_all_archs(), []
         random.shuffle(archs)
         archs = random.sample(archs, k=n_samples)
-        
+
         loader_iter = iter(xloader)
         for i, sampled_arch in enumerate(archs):
             network.module.set_cal_mode('dynamic', sampled_arch)
@@ -128,16 +130,19 @@ def calc_rank_correlation(xloader, network, n_samples):
                 inputs, targets = next(loader_iter)
 
             _, logits = network(inputs)
-            val_top1, val_top5 = obtain_accuracy(logits.cpu().data,targets.data,topk=(1, 5))
-
+            val_top1, val_top5 = obtain_accuracy(logits.cpu().data,
+                                                 targets.data,
+                                                 topk=(1, 5))
 
             valid_accs.append(val_top1.item())
             if i % 10 == 0:
-                print('--- {:}/{:} : {:} : {:}'.format(i, len(archs), sampled_arch, val_top1))
+                print('--- {:}/{:} : {:} : {:}'.format(i, len(archs),
+                                                       sampled_arch, val_top1))
 
         best_idx = np.argmax(valid_accs)
         best_arch, best_valid_acc = archs[best_idx], valid_accs[best_idx]
         return best_arch, best_valid_acc
+
 
 def valid_func(xloader, network, criterion):
     data_time, batch_time = AverageMeter(), AverageMeter()
@@ -181,11 +186,11 @@ def main(xargs):
         'class_num': class_num,
         'xshape': xshape
     }, logger)
-    
+
     search_loader, _, valid_loader = get_nas_search_loaders(
         train_data, valid_data, xargs.dataset, 'configs/nas-benchmark/',
         (config.batch_size, config.test_batch_size), xargs.workers)
-    
+
     logger.log(
         '||||||| {:10s} ||||||| Search-Loader-Num={:}, Valid-Loader-Num={:}, batch size={:}'
         .format(xargs.dataset, len(search_loader), len(valid_loader),
@@ -208,8 +213,8 @@ def main(xargs):
             'track_running_stats': bool(xargs.track_running_stats)
         }, None)
     logger.log('search space : {:}'.format(search_space))
-    
-    # 根据config确定模型 
+
+    # 根据config确定模型
     search_model = get_cell_based_tiny_net(model_config)
 
     w_optimizer, w_scheduler, criterion = get_optim_scheduler(
@@ -218,7 +223,7 @@ def main(xargs):
                                    lr=xargs.arch_learning_rate,
                                    betas=(0.5, 0.999),
                                    weight_decay=xargs.arch_weight_decay)
-    
+
     logger.log('w-optimizer : {:}'.format(w_optimizer))
     logger.log('a-optimizer : {:}'.format(a_optimizer))
     logger.log('w-scheduler : {:}'.format(w_scheduler))
@@ -227,19 +232,20 @@ def main(xargs):
     # logger.log('{:}'.format(search_model))
     logger.log('FLOP = {:.2f} M, Params = {:.2f} MB'.format(flop, param))
     logger.log('search-space : {:}'.format(search_space))
-    
+
     # 构建API
     if xargs.arch_nas_dataset is None:
         api = None
     else:
         api = API(xargs.arch_nas_dataset)
-        
+
     logger.log('{:} create API = {:} done'.format(time_string(), api))
 
     last_info, model_base_path, model_best_path = logger.path(
         'info'), logger.path('model'), logger.path('best')
-    
-    network, criterion = torch.nn.DataParallel(search_model).cuda(), criterion.cuda()
+
+    network, criterion = torch.nn.DataParallel(
+        search_model).cuda(), criterion.cuda()
 
     if last_info.exists():  # automatically resume from previous checkpoint
         logger.log("=> loading checkpoint of the last-info '{:}' start".format(
@@ -267,13 +273,16 @@ def main(xargs):
         }
 
     # start training
-    start_time, search_time, epoch_time, total_epoch = time.time(), AverageMeter(), AverageMeter(), config.epochs + config.warmup
+    start_time, search_time, epoch_time, total_epoch = time.time(
+    ), AverageMeter(), AverageMeter(), config.epochs + config.warmup
     for epoch in range(start_epoch, total_epoch):
         w_scheduler.update(epoch, 0.0)
-        need_time = 'Time Left: {:}'.format(convert_secs2time(epoch_time.val * (total_epoch - epoch), True))
-        
+        need_time = 'Time Left: {:}'.format(
+            convert_secs2time(epoch_time.val * (total_epoch - epoch), True))
+
         epoch_str = '{:03d}-{:03d}'.format(epoch, total_epoch)
-        logger.log('\n[Search the {:}-th epoch] {:}, LR={:}'.format(epoch_str, need_time, min(w_scheduler.get_lr())))
+        logger.log('\n[Search the {:}-th epoch] {:}, LR={:}'.format(
+            epoch_str, need_time, min(w_scheduler.get_lr())))
 
         search_w_loss, search_w_top1, search_w_top5, search_a_loss, search_a_top1, search_a_top5 \
             = search_func(search_loader, network, criterion, w_scheduler, w_optimizer, a_optimizer, epoch_str, xargs.print_freq, logger)
@@ -286,11 +295,16 @@ def main(xargs):
             '[{:}] search [arch] : loss={:.2f}, accuracy@1={:.2f}%, accuracy@5={:.2f}%'
             .format(epoch_str, search_a_loss, search_a_top1, search_a_top5))
 
-        genotype, temp_accuracy = get_best_arch(valid_loader, network, xargs.select_num)
+        genotype, temp_accuracy = get_best_arch(valid_loader, network,
+                                                xargs.select_num)
         network.module.set_cal_mode('dynamic', genotype)
-        valid_a_loss, valid_a_top1, valid_a_top5 = valid_func(valid_loader, network, criterion)
-        
-        logger.log('[{:}] evaluate : loss={:.2f}, accuracy@1={:.2f}%, accuracy@5={:.2f}% | {:}'.format(epoch_str, valid_a_loss, valid_a_top1, valid_a_top5, genotype))
+        valid_a_loss, valid_a_top1, valid_a_top5 = valid_func(
+            valid_loader, network, criterion)
+
+        logger.log(
+            '[{:}] evaluate : loss={:.2f}, accuracy@1={:.2f}%, accuracy@5={:.2f}% | {:}'
+            .format(epoch_str, valid_a_loss, valid_a_top1, valid_a_top5,
+                    genotype))
 
         # check the best accuracy
         valid_accuracies[epoch] = valid_a_top1
