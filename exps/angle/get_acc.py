@@ -9,6 +9,10 @@ import sys
 import time
 from pathlib import Path
 
+lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
+if str(lib_dir) not in sys.path:
+    sys.path.insert(0, str(lib_dir))
+
 import numpy as np
 import torch
 from config_utils import dict2config, load_config
@@ -19,9 +23,7 @@ from nas_201_api import NASBench201API as API
 from procedures import get_optim_scheduler, prepare_logger, prepare_seed
 from utils import get_model_infos, obtain_accuracy
 
-lib_dir = (Path(__file__).parent / '..' / '..' / 'lib').resolve()
-if str(lib_dir) not in sys.path:
-    sys.path.insert(0, str(lib_dir))
+
 
 
 def recalculate_bn(net,
