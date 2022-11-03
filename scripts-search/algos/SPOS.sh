@@ -1,6 +1,6 @@
 #!/bin/bash
 # One-Shot Neural Architecture Search via Self-Evaluated Template Network, ICCV 2019
-# bash ./scripts-search/scripts/algos/SETN.sh cifar10 -1
+# bash ./scripts-search/algos/SPOS.sh cifar10 -1 0
 echo script name: $0
 echo $# arguments
 if [ "$#" -ne 3 ] ;then
@@ -38,7 +38,8 @@ fi
 save_dir=./output/search-cell-nas-bench-201/SPOS-${dataset}
 
 OMP_NUM_THREADS=4 CUDA_VISIBLE_DEVICES=0 python3 ./exps/algos/SPOS.py \
-	--save_dir ${save_dir} --max_nodes ${max_nodes} --channel ${channel} --num_cells ${num_cells} \
+	--save_dir ${save_dir} --max_nodes ${max_nodes} \
+  --channel ${channel} --num_cells ${num_cells} \
 	--dataset ${dataset} --data_path ${data_path} \
 	--search_space_name ${space} \
 	--arch_nas_dataset ${TORCH_HOME}/NAS-Bench-201-v1_0-e61699.pth \
@@ -46,4 +47,4 @@ OMP_NUM_THREADS=4 CUDA_VISIBLE_DEVICES=0 python3 ./exps/algos/SPOS.py \
 	--track_running_stats 1 \
 	--arch_learning_rate 0.0003 --arch_weight_decay 0.001 \
 	--select_num 100 \
-	--workers 4 --print_freq 200 --rand_seed ${seed}
+	--workers 1 --print_freq 200 --rand_seed ${seed}

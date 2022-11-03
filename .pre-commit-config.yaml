@@ -5,10 +5,10 @@ repos:
     hooks:
       - id: flake8
         args: ["--ignore=E501,E265,F841,E701"]
-  - repo: https://github.com/timothycrosley/isort
-    rev: 5.10.1
-    hooks:
-      - id: isort
+  # - repo: https://github.com/timothycrosley/isort
+  #   rev: 5.10.1
+  #   hooks:
+  #     - id: isort
   - repo: https://github.com/pre-commit/mirrors-yapf
     rev: v0.30.0
     hooks:

@@ -312,6 +312,7 @@ def main(xargs):
         genotypes[epoch] = genotype
         logger.log('<<<--->>> The {:}-th epoch : {:}'.format(
             epoch_str, genotypes[epoch]))
+        
         # save checkpoint
         save_path = save_checkpoint(
             {
@@ -404,7 +405,7 @@ if __name__ == '__main__':
     # log
     parser.add_argument('--workers',
                         type=int,
-                        default=2,
+                        default=0,
                         help='number of data loading workers (default: 2)')
     parser.add_argument('--save_dir',
                         type=str,
